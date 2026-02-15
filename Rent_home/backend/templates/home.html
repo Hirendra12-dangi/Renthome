@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>exotiRENT · exotic stays</title>
+    <!-- Google Font & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f7f2e9 0%, #fff9f0 100%);
+            color: #2d2d2a;
+            padding: 1.5rem 2rem;
+            min-height: 100vh;
+        }
+
+        /* exotic glassmorphism + leaf vibes */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* ------ header & logo ------ */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 2.8rem;
+            color: #2b7a4b;
+            filter: drop-shadow(0 8px 12px rgba(33, 99, 71, 0.2));
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e5f3e, #b16e3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            font-weight: 300;
+            background: none;
+            -webkit-text-fill-color: #a65e2e;
+        }
+
+        /* search + filter row */
+        .search-section {
+            background: rgba(255, 250, 240, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 60px;
+            padding: 0.7rem 1rem 0.7rem 2rem;
+            box-shadow: 0 20px 40px -12px rgba(80, 60, 30, 0.25);
+            border: 1px solid rgba(255, 245, 215, 0.6);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.5rem 1.2rem;
+            flex: 2 1 600px;
+        }
+
+        .search-loc {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex: 2 1 200px;
+        }
+
+        .search-loc i {
+            color: #2b7a4b;
+            font-size: 1.2rem;
+        }
+
+        .search-loc input {
+            border: none;
+            background: transparent;
+            padding: 0.6rem 0;
+            font-size: 1rem;
+            width: 100%;
+            outline: none;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .search-loc input:focus {
+            border-bottom-color: #b16e3c;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-badge {
+            background: white;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border: 1px solid #ffeacf;
+        }
+
+        .filter-badge i {
+            color: #b16e3c;
+            font-size: 0.9rem;
+        }
+
+        .filter-badge select {
+            border: none;
+            background: transparent;
+            font-weight: 500;
+            outline: none;
+            color: #3d3d35;
+        }
+
+        .apply-btn {
+            background: #2b7a4b;
+            border: none;
+            color: white;
+            padding: 0.65rem 2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 8px 18px #2b7a4b55;
+            border: 1px solid #a5d6b6;
+        }
+
+        .apply-btn:hover {
+            background: #1d5f38;
+            transform: scale(1.02);
+        }
+
+        /* main two columns (listings + wishlist) */
+        .dashboard {
+            display: flex;
+            gap: 2rem;
+            margin: 2.5rem 0 3rem;
+            flex-wrap: wrap;
+        }
+
+        .listings-col {
+            flex: 3;
+            min-width: 300px;
+        }
+
+        .wishlist-col {
+            flex: 1;
+            min-width: 260px;
+            background: rgba(253, 247, 236, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 40px;
+            padding: 1.8rem 1.4rem;
+            border: 1px solid #eedbbc;
+            box-shadow: 0 20px 30px -15px #ccb69050;
+            height: fit-content;
+        }
+
+        .section-title {
+            font-weight: 600;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .section-title i {
+            color: #b16e3c;
+        }
+
+        /* property grid */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.8rem;
+        }
+
+        /* exotic card */
+        .property-card {
+            background: rgba(255, 250, 240, 0.8);
+            backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 1.2rem 1rem 1.4rem;
+            border: 1px solid #f5e1c4;
+            box-shadow: 0 20px 30px -20px #9b7e5e;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .property-card:hover {
+            transform: translateY(-6px);
+            border-color: #c7a976;
+            box-shadow: 0 28px 36px -18px #755e3d;
+        }
+
+        .card-img {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            margin-bottom: 1rem;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .property-card:hover .card-img img {
+            transform: scale(1.04);
+        }
+
+        .wishlist-heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255,255,240,0.8);
+            backdrop-filter: blur(4px);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #b16e3c;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid #ffeac2;
+        }
+
+        .wishlist-heart.active {
+            color: #d44c4c;
+            background: #fff2ee;
+        }
+
+        .price-rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: #1e5f3e;
+        }
+        .price small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #7a6a58;
+        }
+
+        .rating {
+            background: #ffeedb;
+            padding: 0.3rem 0.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #b16e3c;
+        }
+
+        .locality {
+            color: #936e47;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #5e4a35;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: auto;
+        }
+
+        .btn-sm {
+            flex: 1;
+            background: white;
+            border: 1px solid #e9d5b7;
+            border-radius: 50px;
+            padding: 0.7rem 0;
+            font-weight: 600;
+            color: #2b4f35;
+            cursor: pointer;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.9rem;
+        }
+
+        .btn-sm:hover {
+            background: #2b7a4b;
+            border-color: #2b7a4b;
+            color: white;
+        }
+
+        .btn-sm i {
+            font-size: 0.9rem;
+        }
+
+        /* wishlist column items */
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255,255,240,0.7);
+            border-radius: 30px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #f0d8b6;
+            backdrop-filter: blur(2px);
+        }
+
+        .wishlist-item img {
+            width: 65px;
+            height: 65px;
+            border-radius: 25px;
+            object-fit: cover;
+            border: 2px solid #ffddb0;
+        }
+
+        .wishlist-info {
+            flex: 1;
+        }
+        .wishlist-info p:first-child {
+            font-weight: 600;
+        }
+        .wishlist-info p:second-child {
+            color: #2b7a4b;
+            font-weight: 500;
+        }
+        .wishlist-item i {
+            color: #d44c4c;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .wishlist-item i.fa-trash {
+            color: #9a8b78;
+            font-size: 1rem;
+        }
+
+        /* modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(12px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-card {
+            background: #fffbf2;
+            max-width: 1000px;
+            width: 90%;
+            border-radius: 60px;
+            padding: 2rem;
+            border: 2px solid #e2cfaf;
+            box-shadow: 0 40px 60px #322b1e40;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 28px; right: 32px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #a47148;
+        }
+        .modal-flex {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .modal-images {
+            flex: 1.2;
+            min-width: 280px;
+        }
+        .modal-info {
+            flex: 1;
+            min-width: 240px;
+        }
+        .modal-main-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            border-radius: 40px;
+            object-fit: cover;
+            border: 2px solid #e8cfac;
+        }
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1rem 0 0.5rem;
+        }
+        .carousel-btn {
+            background: white;
+            border: 1px solid #dbbd96;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.2rem;
+            color: #2b7a4b;
+            cursor: pointer;
+        }
+        .thumbnails {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .thumb {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            object-fit: cover;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .thumb.active {
+            border-color: #b16e3c;
+        }
+        .modal-info h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .modal-info .price-lg {
+            font-size: 2.2rem;
+            color: #1d5f38;
+            font-weight: 700;
+        }
+        .contact-row {
+            margin: 1.8rem 0 1rem;
+            background: #f7ebd9;
+            border-radius: 28px;
+            padding: 1.2rem;
+        }
+        .book-btn-lg {
+            background: #b16e3c;
+            border: none;
+            color: white;
+            font-weight: 700;
+            padding: 1.2rem 2rem;
+            border-radius: 60px;
+            width: 100%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.15s;
+            border: 1px solid #e4b176;
+        }
+        .book-btn-lg:hover {
+            background: #925a2d;
+        }
+
+        /* footer developers */
+        .developer-footer {
+            margin-top: 4rem;
+            padding: 2rem 2rem 1.5rem;
+            background: #2b2b26;
+            color: #faf1e2;
+            border-radius: 60px 60px 30px 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .dev-names {
+            display: flex;
+            gap: 2rem;
+            font-weight: 300;
+        }
+        .dev-names i {
+            color: #c5a56b;
+            margin-right: 6px;
+        }
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f0dbb0;
+        }
+
+        hr {
+            border: 1px dashed #d8b88a;
+            margin: 1.5rem 0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- header with logo & exotic vibes -->
+    <div class="top-bar">
+        <div class="logo-area">
+            <i class="fas fa-palmtree logo-icon"></i>
+            <div class="logo-text">exoti<span>RENT</span></div>
+        </div>
+        <div class="search-section">
+            <div class="search-loc">
+                <i class="fas fa-map-pin"></i>
+                <input type="text" id="locationSearch" placeholder="City or locality...">
+            </div>
+            <div class="filter-group">
+                <div class="filter-badge"><i class="fas fa-dollar-sign"></i>
+                    <select id="priceFilter">
+                        <option value="any">Any price</option>
+                        <option value="0-800">$0 – $800</option>
+                        <option value="800-1500">$800 – $1500</option>
+                        <option value="1500-3000">$1500 – $3000</option>
+                    </select>
+                </div>
+                <div class="filter-badge"><i class="fas fa-star"></i>
+                    <select id="ratingFilter">
+                        <option value="0">Any rating</option>
+                        <option value="3">3+ stars</option>
+                        <option value="4">4+ stars</option>
+                        <option value="4.5">4.5+ stars</option>
+                    </select>
+                </div>
+                <button class="apply-btn" id="filterBtn"><i class="fas fa-sliders-h"></i> Filter</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- main two columns : listings + wishlist column -->
+    <div class="dashboard">
+        <!-- LEFT: property listings -->
+        <div class="listings-col">
+            <h2 class="section-title"><i class="fas fa-building"></i> Places to stay</h2>
+            <div class="property-grid" id="propertyGrid"></div>
+        </div>
+
+        <!-- RIGHT: wishlist column (static but matches theme) -->
+        <aside class="wishlist-col">
+            <h2 class="section-title" style="font-size: 1.4rem;"><i class="fas fa-heart" style="color: #d44c4c;"></i> Wishlist</h2>
+            <div class="wishlist-items">
+                <div class="wishlist-item">
+                    <img src="https://picsum.photos/id/1043/100/100" alt="wishlist">
+                    <div class="wishlist-info">
+                        <p>Cozy Studio</p>
+                        <p style="color:#1e5f3e;">$800</p>
+                    </div>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <div class="wishlist-item">
+                    <img src="https://picsum.photos/id/106/100/100" alt="wishlist">
+                    <div class="wishlist-info">
+                        <p>Garden House</p>
+                        <p style="color:#1e5f3e;">$1200</p>
+                    </div>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+                <div class="wishlist-item">
+                    <img src="https://picsum.photos/id/20/100/100" alt="wishlist">
+                    <div class="wishlist-info">
+                        <p>Luxury Loft</p>
+                        <p style="color:#1e5f3e;">$2200</p>
+                    </div>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+            <hr>
+            <p style="color:#8b765a; font-size:0.9rem; text-align:center;"><i class="fas fa-clock"></i> saved for later</p>
+        </aside>
+    </div>
+
+    <!-- developer footer (exotic team) -->
+    <footer class="developer-footer">
+        <div class="footer-logo">🌴 exotiRENT</div>
+        <div class="dev-names">
+            <span><i class="fas fa-code"></i> Mira K.</span>
+            <span><i class="fas fa-paint-brush"></i> Jamal R.</span>
+            <span><i class="fas fa-camera"></i> Sam L.</span>
+            <span><i class="fas fa-heart"></i> design studio</span>
+        </div>
+        <div>© 2025 · exotic stays</div>
+    </footer>
+</div>
+
+<!-- MODAL for detailed view (owner contact, photos, book) -->
+<div id="propertyModal" class="modal">
+    <div class="modal-card">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <div class="modal-flex">
+            <!-- left photo carousel -->
+            <div class="modal-images">
+                <img id="modalMainImg" class="modal-main-img" src="" alt="room">
+                <div class="carousel-controls">
+                    <button class="carousel-btn" id="prevImg"><i class="fas fa-chevron-left"></i></button>
+                    <button class="carousel-btn" id="nextImg"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="thumbnails" id="thumbnailsContainer"></div>
+            </div>
+            <!-- right details -->
+            <div class="modal-info">
+                <h2 id="modalTitle">Sunny studio</h2>
+                <p class="locality" id="modalLocality">East Village</p>
+                <p class="location" id="modalFullLocation"><i class="fas fa-map-marker-alt"></i> <span id="modalLocation"></span></p>
+                <span class="rating" id="modalRating">★★★★☆</span>
+                <div class="price-lg" id="modalPrice">$1200</div>
+                <p id="modalDescription">Beautiful apartment near park.</p>
+                <div class="contact-row">
+                    <p><i class="fas fa-user"></i> <strong>Owner:</strong> <span id="modalOwner"></span></p>
+                    <p><i class="fas fa-phone"></i> <span id="modalPhone"></span></p>
+                    <p><i class="fas fa-envelope"></i> <span id="modalEmail"></span></p>
+                </div>
+                <button class="book-btn-lg" id="modalBookBtn"><i class="fas fa-calendar-check"></i> Book a visit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- DUMMY PROPERTY DATA ----------
+        const properties = [
+            { id:1, title:'Cozy Studio', price:800, rating:4.5, location:'Downtown', locality:'Financial District', img:'https://picsum.photos/id/1043/400/300', owner:'Alice Chen', phone:'+1 (212) 555 1234', email:'alice.c@exoti.rent', images:['https://picsum.photos/id/1043/400/300','https://picsum.photos/id/1044/400/300','https://picsum.photos/id/106/400/300'], description:'Bright studio next to subway. Perfect for one.' },
+            { id:2, title:'2BR Apartment', price:1500, rating:4.2, location:'Midtown', locality:'Theater District', img:'https://picsum.photos/id/20/400/300', owner:'Bob Mendez', phone:'+1 (212) 555 5678', email:'bob.m@exoti.rent', images:['https://picsum.photos/id/20/400/300','https://picsum.photos/id/21/400/300','https://picsum.photos/id/22/400/300'], description:'Spacious 2BR with city view.' },
+            { id:3, title:'Shared Flat', price:600, rating:3.8, location:'Uptown', locality:'Harlem', img:'https://picsum.photos/id/102/400/300', owner:'Charlie Ray', phone:'+1 (212) 555 8765', email:'charlie@exoti.rent', images:['https://picsum.photos/id/102/400/300','https://picsum.photos/id/103/400/300','https://picsum.photos/id/104/400/300'], description:'Shared flat, creative vibes.' },
+            { id:4, title:'Luxury Loft', price:2200, rating:4.9, location:'Brooklyn', locality:'Williamsburg', img:'https://picsum.photos/id/104/400/300', owner:'Dana Scully', phone:'+1 (718) 555 4321', email:'dana@exoti.rent', images:['https://picsum.photos/id/104/400/300','https://picsum.photos/id/100/400/300','https://picsum.photos/id/101/400/300'], description:'Industrial loft, roof access.' },
+            { id:5, title:'Garden House', price:1200, rating:4.0, location:'Queens', locality:'Astoria', img:'https://picsum.photos/id/106/400/300', owner:'Eve Torres', phone:'+1 (718) 555 9876', email:'eve@exoti.rent', images:['https://picsum.photos/id/106/400/300','https://picsum.photos/id/107/400/300','https://picsum.photos/id/108/400/300'], description:'House with backyard garden.' },
+            { id:6, title:'Studio near park', price:950, rating:4.3, location:'Staten Island', locality:'St. George', img:'https://picsum.photos/id/108/400/300', owner:'Frank Ocean', phone:'+1 (718) 555 3456', email:'frank@exoti.rent', images:['https://picsum.photos/id/108/400/300','https://picsum.photos/id/109/400/300','https://picsum.photos/id/110/400/300'], description:'Cozy studio, ferry view.' }
+        ];
+
+        // references
+        const grid = document.getElementById('propertyGrid');
+        const modal = document.getElementById('propertyModal');
+        const closeModal = document.getElementById('closeModal');
+        const filterBtn = document.getElementById('filterBtn');
+        const locationInput = document.getElementById('locationSearch');
+        const priceSelect = document.getElementById('priceFilter');
+        const ratingSelect = document.getElementById('ratingFilter');
+
+        // modal elements
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLocality = document.getElementById('modalLocality');
+        const modalLocation = document.getElementById('modalLocation');
+        const modalFullLocation = document.getElementById('modalFullLocation');
+        const modalRating = document.getElementById('modalRating');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalOwner = document.getElementById('modalOwner');
+        const modalPhone = document.getElementById('modalPhone');
+        const modalEmail = document.getElementById('modalEmail');
+        const modalMainImg = document.getElementById('modalMainImg');
+        const thumbContainer = document.getElementById('thumbnailsContainer');
+        const prevBtn = document.getElementById('prevImg');
+        const nextBtn = document.getElementById('nextImg');
+        const modalBookBtn = document.getElementById('modalBookBtn');
+
+        let currentImages = [];
+        let currentImgIndex = 0;
+        let currentPropertyId = null;
+
+        // render property cards
+        function renderProperties(props) {
+            grid.innerHTML = '';
+            props.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                card.dataset.id = p.id;
+                card.dataset.price = p.price;
+                card.dataset.rating = p.rating;
+                card.dataset.location = `${p.location} ${p.locality}`.toLowerCase();
+                card.innerHTML = `
+                    <div class="card-img">
+                        <img src="${p.img}" alt="${p.title}">
+                        <div class="wishlist-heart" data-wishlist-id="${p.id}"><i class="fa-regular fa-heart"></i></div>
+                    </div>
+                    <div class="price-rating">
+                        <span class="price">$${p.price}<small>/mo</small></span>
+                        <span class="rating"><i class="fa-solid fa-star"></i> ${p.rating}</span>
+                    </div>
+                    <div class="locality">${p.locality}</div>
+                    <div class="location"><i class="fas fa-location-dot"></i> ${p.location}</div>
+                    <div class="card-actions">
+                        <button class="btn-sm book-now" data-id="${p.id}"><i class="fas fa-calendar"></i> Visit</button>
+                        <button class="btn-sm details-btn" data-id="${p.id}"><i class="fas fa-expand"></i> Details</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            // attach heart toggle (simple class)
+            document.querySelectorAll('.wishlist-heart').forEach(heart => {
+                heart.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    heart.classList.toggle('active');
+                    const icon = heart.querySelector('i');
+                    if (heart.classList.contains('active')) {
+                        icon.classList.remove('fa-regular');
+                        icon.classList.add('fa-solid');
+                    } else {
+                        icon.classList.remove('fa-solid');
+                        icon.classList.add('fa-regular');
+                    }
+                });
+            });
+
+            // book now buttons
+            document.querySelectorAll('.book-now').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    alert('✈️ Visit request sent! Owner will contact you.');
+                });
+            });
+        }
+
+        // filter logic
+        function filterProperties() {
+            const locQuery = locationInput.value.trim().toLowerCase();
+            const priceVal = priceSelect.value;
+            const ratingVal = parseFloat(ratingSelect.value) || 0;
+
+            const filtered = properties.filter(p => {
+                // location / locality match
+                const fullLoc = `${p.location} ${p.locality}`.toLowerCase();
+                if (locQuery && !fullLoc.includes(locQuery)) return false;
+
+                // price range
+                if (priceVal !== 'any') {
+                    const [min, max] = priceVal.split('-').map(Number);
+                    if (p.price < min || p.price > max) return false;
+                }
+
+                // rating
+                if (p.rating < ratingVal) return false;
+
+                return true;
+            });
+            renderProperties(filtered);
+        }
+
+        filterBtn.addEventListener('click', filterProperties);
+
+        // modal open with details
+        function openModal(propertyId) {
+            const prop = properties.find(p => p.id == propertyId);
+            if (!prop) return;
+
+            currentPropertyId = prop.id;
+            modalTitle.textContent = prop.title;
+            modalLocality.textContent = prop.locality;
+            modalLocation.textContent = prop.location;
+            modalRating.innerHTML = `<i class="fa-solid fa-star"></i> ${prop.rating}`;
+            modalPrice.textContent = `$${prop.price}/month`;
+            modalDescription.textContent = prop.description;
+            modalOwner.textContent = prop.owner;
+            modalPhone.textContent = prop.phone;
+            modalEmail.textContent = prop.email;
+
+            // images carousel
+            currentImages = prop.images || [prop.img];
+            currentImgIndex = 0;
+            updateMainImage();
+            renderThumbnails();
+
+            modal.style.display = 'flex';
+        }
+
+        function updateMainImage() {
+            if (currentImages.length > 0) {
+                modalMainImg.src = currentImages[currentImgIndex];
+            }
+        }
+
+        function renderThumbnails() {
+            thumbContainer.innerHTML = '';
+            currentImages.forEach((imgSrc, idx) => {
+                const thumb = document.createElement('img');
+                thumb.src = imgSrc;
+                thumb.className = `thumb ${idx === currentImgIndex ? 'active' : ''}`;
+                thumb.addEventListener('click', () => {
+                    currentImgIndex = idx;
+                    updateMainImage();
+                    renderThumbnails();
+                });
+                thumbContainer.appendChild(thumb);
+            });
+        }
+
+        // carousel next/prev
+        prevBtn.addEventListener('click', () => {
+            if (currentImages.length === 0) return;
+            currentImgIndex = (currentImgIndex - 1 + currentImages.length) % currentImages.length;
+            updateMainImage();
+            renderThumbnails();
+        });
+        nextBtn.addEventListener('click', () => {
+            if (currentImages.length === 0) return;
+            currentImgIndex = (currentImgIndex + 1) % currentImages.length;
+            updateMainImage();
+            renderThumbnails();
+        });
+
+        // close modal
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+
+        // modal book button
+        modalBookBtn.addEventListener('click', () => {
+            alert('📅 Booking request sent! (demo)');
+            modal.style.display = 'none';
+        });
+
+        // event delegation for details buttons
+        grid.addEventListener('click', (e) => {
+            const detailsBtn = e.target.closest('.details-btn');
+            if (detailsBtn) {
+                const id = detailsBtn.dataset.id;
+                openModal(id);
+            }
+        });
+
+        // initial render
+        renderProperties(properties);
+
+        // optional: reset filter (show all on page load)
+        document.getElementById('filterBtn').click(); // just to sync but we want initial all
+        // but we call render already, no need.
+        // avoid double call
+    })();
+</script>
+<!-- small style for heart toggle -->
+<style>
+    .wishlist-heart.active i { color: #d44c4c; }
+    .wishlist-heart i { transition: 0.1s; }
+</style>
+</body>
+</html>
