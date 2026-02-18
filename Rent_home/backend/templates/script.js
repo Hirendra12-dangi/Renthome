@@ -22,3 +22,25 @@ window.addEventListener('click', function(event) {
         event.target.classList.remove('active');
     }
 });
+
+
+
+function toggleSidePanel() {
+    const panel = document.getElementById('sidePanel');
+    const overlay = document.getElementById('sidePanelOverlay');
+    
+    // Toggle the 'active' class to slide the panel in or out
+    panel.classList.toggle('active');
+    overlay.classList.toggle('active');
+}
+
+// Update your existing window.onclick to close the side panel too
+window.addEventListener('click', function(event) {
+    const panel = document.getElementById('sidePanel');
+    const overlay = document.getElementById('sidePanelOverlay');
+    
+    if (event.target === overlay) {
+        panel.classList.remove('active');
+        overlay.classList.remove('active');
+    }
+});

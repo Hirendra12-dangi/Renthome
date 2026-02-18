@@ -10,10 +10,17 @@
 <body>
 
     <nav class="navbar">
-        <div class="logo">Room<span>Rent</span></div>
-        <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
-            <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
-        </button>
+        <div class="logo">Exotic<span>Rent</span></div>
+
+        <div class="nav-right">
+    <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
+        <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
+    </button>
+    <button class="menu-toggle" onclick="toggleSidePanel()">
+        <i class="fas fa-bars"></i>
+    </button>
+</div>
+
     </nav>
 
     <section class="top-search-section">
@@ -50,9 +57,9 @@
                 <div class="filter-item">
                     <div class="price-row">
                         <label>Max Price</label>
-                        <span class="price-val">$<span id="priceNum">5000</span></span>
+                        <span class="price-val">₹<span id="priceNum">5000</span></span>
                     </div>
-                    <input type="range" min="500" max="10000" value="5000" step="100" class="slider" id="priceRange">
+                    <input type="range" min="2000" max="50000" value="5000" step="100" class="slider" id="priceRange">
                 </div>
                 <div class="filter-item">
                     <label style="font-weight: bold; display: block; margin-bottom: 10px;">Rating</label>
@@ -103,6 +110,23 @@
             &copy; 2026 RoomRent Interactive. All rights reserved.
         </div>
     </footer>
+
+    <div class="side-panel-overlay" id="sidePanelOverlay" onclick="toggleSidePanel()"></div>
+<div class="side-panel" id="sidePanel">
+    <div class="panel-header">
+        <div class="logo">Exotic<span>Rent</span></div>
+        <i class="fas fa-times close-panel" onclick="toggleSidePanel()"></i>
+    </div>
+    <div class="panel-links">
+        <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
+        <a href="#"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
+        <hr>
+        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+        <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
+        <hr>
+        <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+</div>
 
     <script src="script.js"></script>
 </body>
