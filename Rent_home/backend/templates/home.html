@@ -3,356 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>exotiRENT · exotic stays</title>
-    <!-- Google Font & Font Awesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-  <link rel="stylesheet" href="web.css">
-
-
+    <title>RoomRent | Online Rental Service</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-<div class="container">
 
-    <!-- header with logo & exotic vibes -->
-    <div class="top-bar">
-        <div class="logo-area">
-            <i class="fas fa-palmtree logo-icon"></i>
-            <div class="logo-text">exoti<span>RENT</span></div>
-        </div>
-        <div class="search-section">
-            <div class="search-loc">
-                <i class="fas fa-map-pin"></i>
-                <input type="text" id="locationSearch" placeholder="City  and  Locality...">
+    <header class="main-header">
+        <div class="logo">exoti<span>Rent</span></div>
+        <button class="wishlist-trigger" onclick="toggleWishlist()">
+            <i class="fas fa-heart"></i> Wishlist <span class="badge" id="badge-count">0</span>
+        </button>
+    </header>
+
+    <section class="search-section">
+        <div class="search-container">
+            <div class="search-box">
+                <div class="input-group">
+                    <select id="city-select">
+                        <option>Select City</option>
+                        <option>Mumbai</option>
+                        <option>Delhi</option>
+                        <option>Bangalore</option>
+                    </select>
+                    <div class="vertical-divider"></div>
+                    <input type="text" placeholder="Search Locality..." id="locality-input">
+                </div>
+
+                <div class="search-spacer"></div>
+
+                <div class="action-group">
+                    <button class="filter-btn" onclick="toggleFilter()">
+                        <i class="fas fa-sliders-v"></i>Filters
+                    </button>
+                    <button class="search-main-btn">Search</button>
+                </div>
             </div>
-            <div class="filter-group">
-                <div class="filter-badge"><i class="fas fa-dollar-sign"></i>
-                    <select id="priceFilter">
-                        <option value="any">Any price</option>
-                        <option value="0-800">$0 – $800</option>
-                        <option value="800-1500">$800 – $1500</option>
-                        <option value="1500-3000">$1500 – $3000</option>
-                    </select>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="filterOverlay">
+        <div class="small-page-modal">
+            <div class="modal-header">
+                <h3>Filters</h3>
+                <i class="fas fa-times close-icon" onclick="toggleFilter()"></i>
+            </div>
+            <div class="modal-body">
+                <div class="filter-item">
+                    <label>Price Range ($)</label>
+                    <input type="range" min="500" max="10000" class="slider">
                 </div>
-                <div class="filter-badge"><i class="fas fa-star"></i>
-                    <select id="ratingFilter">
-                        <option value="0">Any rating</option>
-                        <option value="3">3+ stars</option>
-                        <option value="4">4+ stars</option>
-                        <option value="4.5">4.5+ stars</option>
-                    </select>
+                <div class="filter-item">
+                    <label>Rating</label>
+                    <div class="chip-group">
+                        <button class="chip">4.5+</button>
+                        <button class="chip">4.0+</button>
+                        <button class="chip">All</button>
+                    </div>
                 </div>
-                <button class="apply-btn" id="filterBtn"><i class="fas fa-sliders-h"></i> Filter</button>
+            </div>
+            <button class="apply-btn" onclick="toggleFilter()">Apply</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="wishlistOverlay">
+        <div class="small-page-modal">
+            <div class="modal-header">
+                <h3>My Wishlist</h3>
+                <i class="fas fa-times close-icon" onclick="toggleWishlist()"></i>
+            </div>
+            <div class="wishlist-items" id="wishlist-content">
+                <p class="empty-text">Your wishlist is empty.</p>
             </div>
         </div>
     </div>
-    <!-- main two columns : listings + wishlist column -->
-    <div class="dashboard">
-        <!-- LEFT: property listings -->
-        <div class="listings-col">
-            <h2 class="section-title"><i class="fas fa-building"></i> Places to stay</h2>
-            <div class="property-grid" id="propertyGrid"></div>
-        </div>
 
-        <!-- RIGHT: wishlist column (static but matches theme) -->
-        <aside class="wishlist-col">
-            <h2 class="section-title" style="font-size: 1.4rem;"><i class="fas fa-heart" style="color: #d44c4c;"></i> Wishlist</h2>
-            <div class="wishlist-items">
-                <div class="wishlist-item">
-                    <img src="https://picsum.photos/id/1043/100/100" alt="wishlist">
-                    <div class="wishlist-info">
-                        <p>Cozy Studio</p>
-                        <p style="color:#1e5f3e;">$800</p>
-                    </div>
-                    <i class="fas fa-heart"></i>
-                    <i class="fas fa-trash"></i>
-                </div>
-                <div class="wishlist-item">
-                    <img src="https://picsum.photos/id/106/100/100" alt="wishlist">
-                    <div class="wishlist-info">
-                        <p>Garden House</p>
-                        <p style="color:#1e5f3e;">$1200</p>
-                    </div>
-                    <i class="fas fa-heart"></i>
-                    <i class="fas fa-trash"></i>
-                </div>
-                <div class="wishlist-item">
-                    <img src="https://picsum.photos/id/20/100/100" alt="wishlist">
-                    <div class="wishlist-info">
-                        <p>Luxury Loft</p>
-                        <p style="color:#1e5f3e;">$2200</p>
-                    </div>
-                    <i class="fas fa-heart"></i>
-                    <i class="fas fa-trash"></i>
-                </div>
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h4>About RoomRent</h4>
+                <p>Leading the way in verified online room rentals. Trusted by 2M+ users.</p>
             </div>
-            <hr>
-            <p style="color:#8b765a; font-size:0.9rem; text-align:center;"><i class="fas fa-clock"></i> saved for later</p>
-        </aside>
-    </div>
-
-    <!-- developer footer (exotic team) -->
-    <footer class="developer-footer">
-        <div class="footer-logo">🌴 exotiRENT</div>
-        <div class="dev-names">
-            <span><i class="fas fa-code"></i> Mira K.</span>
-            <span><i class="fas fa-paint-brush"></i> Jamal R.</span>
-            <span><i class="fas fa-camera"></i> Sam L.</span>
-            <span><i class="fas fa-heart"></i> design studio</span>
+            <div class="footer-links">
+                <p>Email: help@roomrent.com</p>
+                <p>Toll Free: 1800-ROOM-RENT</p>
+            </div>
         </div>
-        <div>© 2025 · exotic stays</div>
     </footer>
-</div>
 
-<!-- MODAL for detailed view (owner contact, photos, book) -->
-<div id="propertyModal" class="modal">
-    <div class="modal-card">
-        <span class="close-modal" id="closeModal">&times;</span>
-        <div class="modal-flex">
-            <!-- left photo carousel -->
-            <div class="modal-images">
-                <img id="modalMainImg" class="modal-main-img" src="" alt="room">
-                <div class="carousel-controls">
-                    <button class="carousel-btn" id="prevImg"><i class="fas fa-chevron-left"></i></button>
-                    <button class="carousel-btn" id="nextImg"><i class="fas fa-chevron-right"></i></button>
-                </div>
-                <div class="thumbnails" id="thumbnailsContainer"></div>
-            </div>
-            <!-- right details -->
-            <div class="modal-info">
-                <h2 id="modalTitle">Sunny studio</h2>
-                <p class="locality" id="modalLocality">East Village</p>
-                <p class="location" id="modalFullLocation"><i class="fas fa-map-marker-alt"></i> <span id="modalLocation"></span></p>
-                <span class="rating" id="modalRating">★★★★☆</span>
-                <div class="price-lg" id="modalPrice">$1200</div>
-                <p id="modalDescription">Beautiful apartment near park.</p>
-                <div class="contact-row">
-                    <p><i class="fas fa-user"></i> <strong>Owner:</strong> <span id="modalOwner"></span></p>
-                    <p><i class="fas fa-phone"></i> <span id="modalPhone"></span></p>
-                    <p><i class="fas fa-envelope"></i> <span id="modalEmail"></span></p>
-                </div>
-                <button class="book-btn-lg" id="modalBookBtn"><i class="fas fa-calendar-check"></i> Book a visit</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    (function() {
-        // ---------- DUMMY PROPERTY DATA ----------
-        const properties = [
-            { id:1, title:'Cozy Studio', price:800, rating:4.5, location:'Downtown', locality:'Financial District', img:'https://picsum.photos/id/1043/400/300', owner:'Alice Chen', phone:'+1 (212) 555 1234', email:'alice.c@exoti.rent', images:['https://picsum.photos/id/1043/400/300','https://picsum.photos/id/1044/400/300','https://picsum.photos/id/106/400/300'], description:'Bright studio next to subway. Perfect for one.' },
-            { id:2, title:'2BR Apartment', price:1500, rating:4.2, location:'Midtown', locality:'Theater District', img:'https://picsum.photos/id/20/400/300', owner:'Bob Mendez', phone:'+1 (212) 555 5678', email:'bob.m@exoti.rent', images:['https://picsum.photos/id/20/400/300','https://picsum.photos/id/21/400/300','https://picsum.photos/id/22/400/300'], description:'Spacious 2BR with city view.' },
-            { id:3, title:'Shared Flat', price:600, rating:3.8, location:'Uptown', locality:'Harlem', img:'https://picsum.photos/id/102/400/300', owner:'Charlie Ray', phone:'+1 (212) 555 8765', email:'charlie@exoti.rent', images:['https://picsum.photos/id/102/400/300','https://picsum.photos/id/103/400/300','https://picsum.photos/id/104/400/300'], description:'Shared flat, creative vibes.' },
-            { id:4, title:'Luxury Loft', price:2200, rating:4.9, location:'Brooklyn', locality:'Williamsburg', img:'https://picsum.photos/id/104/400/300', owner:'Dana Scully', phone:'+1 (718) 555 4321', email:'dana@exoti.rent', images:['https://picsum.photos/id/104/400/300','https://picsum.photos/id/100/400/300','https://picsum.photos/id/101/400/300'], description:'Industrial loft, roof access.' },
-            { id:5, title:'Garden House', price:1200, rating:4.0, location:'Queens', locality:'Astoria', img:'https://picsum.photos/id/106/400/300', owner:'Eve Torres', phone:'+1 (718) 555 9876', email:'eve@exoti.rent', images:['https://picsum.photos/id/106/400/300','https://picsum.photos/id/107/400/300','https://picsum.photos/id/108/400/300'], description:'House with backyard garden.' },
-            { id:6, title:'Studio near park', price:950, rating:4.3, location:'Staten Island', locality:'St. George', img:'https://picsum.photos/id/108/400/300', owner:'Frank Ocean', phone:'+1 (718) 555 3456', email:'frank@exoti.rent', images:['https://picsum.photos/id/108/400/300','https://picsum.photos/id/109/400/300','https://picsum.photos/id/110/400/300'], description:'Cozy studio, ferry view.' }
-        ];
-
-        // references
-        const grid = document.getElementById('propertyGrid');
-        const modal = document.getElementById('propertyModal');
-        const closeModal = document.getElementById('closeModal');
-        const filterBtn = document.getElementById('filterBtn');
-        const locationInput = document.getElementById('locationSearch');
-        const priceSelect = document.getElementById('priceFilter');
-        const ratingSelect = document.getElementById('ratingFilter');
-
-        // modal elements
-        const modalTitle = document.getElementById('modalTitle');
-        const modalLocality = document.getElementById('modalLocality');
-        const modalLocation = document.getElementById('modalLocation');
-        const modalFullLocation = document.getElementById('modalFullLocation');
-        const modalRating = document.getElementById('modalRating');
-        const modalPrice = document.getElementById('modalPrice');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalOwner = document.getElementById('modalOwner');
-        const modalPhone = document.getElementById('modalPhone');
-        const modalEmail = document.getElementById('modalEmail');
-        const modalMainImg = document.getElementById('modalMainImg');
-        const thumbContainer = document.getElementById('thumbnailsContainer');
-        const prevBtn = document.getElementById('prevImg');
-        const nextBtn = document.getElementById('nextImg');
-        const modalBookBtn = document.getElementById('modalBookBtn');
-
-        let currentImages = [];
-        let currentImgIndex = 0;
-        let currentPropertyId = null;
-
-        // render property cards
-        function renderProperties(props) {
-            grid.innerHTML = '';
-            props.forEach(p => {
-                const card = document.createElement('div');
-                card.className = 'property-card';
-                card.dataset.id = p.id;
-                card.dataset.price = p.price;
-                card.dataset.rating = p.rating;
-                card.dataset.location = `${p.location} ${p.locality}`.toLowerCase();
-                card.innerHTML = `
-                    <div class="card-img">
-                        <img src="${p.img}" alt="${p.title}">
-                        <div class="wishlist-heart" data-wishlist-id="${p.id}"><i class="fa-regular fa-heart"></i></div>
-                    </div>
-                    <div class="price-rating">
-                        <span class="price">$${p.price}<small>/mo</small></span>
-                        <span class="rating"><i class="fa-solid fa-star"></i> ${p.rating}</span>
-                    </div>
-                    <div class="locality">${p.locality}</div>
-                    <div class="location"><i class="fas fa-location-dot"></i> ${p.location}</div>
-                    <div class="card-actions">
-                        <button class="btn-sm book-now" data-id="${p.id}"><i class="fas fa-calendar"></i> Visit</button>
-                        <button class="btn-sm details-btn" data-id="${p.id}"><i class="fas fa-expand"></i> Details</button>
-                    </div>
-                `;
-                grid.appendChild(card);
-            });
-
-            // attach heart toggle (simple class)
-            document.querySelectorAll('.wishlist-heart').forEach(heart => {
-                heart.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    heart.classList.toggle('active');
-                    const icon = heart.querySelector('i');
-                    if (heart.classList.contains('active')) {
-                        icon.classList.remove('fa-regular');
-                        icon.classList.add('fa-solid');
-                    } else {
-                        icon.classList.remove('fa-solid');
-                        icon.classList.add('fa-regular');
-                    }
-                });
-            });
-
-            // book now buttons
-            document.querySelectorAll('.book-now').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    alert('✈️ Visit request sent! Owner will contact you.');
-                });
-            });
-        }
-
-        // filter logic
-        function filterProperties() {
-            const locQuery = locationInput.value.trim().toLowerCase();
-            const priceVal = priceSelect.value;
-            const ratingVal = parseFloat(ratingSelect.value) || 0;
-
-            const filtered = properties.filter(p => {
-                // location / locality match
-                const fullLoc = `${p.location} ${p.locality}`.toLowerCase();
-                if (locQuery && !fullLoc.includes(locQuery)) return false;
-
-                // price range
-                if (priceVal !== 'any') {
-                    const [min, max] = priceVal.split('-').map(Number);
-                    if (p.price < min || p.price > max) return false;
-                }
-
-                // rating
-                if (p.rating < ratingVal) return false;
-
-                return true;
-            });
-            renderProperties(filtered);
-        }
-
-        filterBtn.addEventListener('click', filterProperties);
-
-        // modal open with details
-        function openModal(propertyId) {
-            const prop = properties.find(p => p.id == propertyId);
-            if (!prop) return;
-
-            currentPropertyId = prop.id;
-            modalTitle.textContent = prop.title;
-            modalLocality.textContent = prop.locality;
-            modalLocation.textContent = prop.location;
-            modalRating.innerHTML = `<i class="fa-solid fa-star"></i> ${prop.rating}`;
-            modalPrice.textContent = `$${prop.price}/month`;
-            modalDescription.textContent = prop.description;
-            modalOwner.textContent = prop.owner;
-            modalPhone.textContent = prop.phone;
-            modalEmail.textContent = prop.email;
-
-            // images carousel
-            currentImages = prop.images || [prop.img];
-            currentImgIndex = 0;
-            updateMainImage();
-            renderThumbnails();
-
-            modal.style.display = 'flex';
-        }
-
-        function updateMainImage() {
-            if (currentImages.length > 0) {
-                modalMainImg.src = currentImages[currentImgIndex];
-            }
-        }
-
-        function renderThumbnails() {
-            thumbContainer.innerHTML = '';
-            currentImages.forEach((imgSrc, idx) => {
-                const thumb = document.createElement('img');
-                thumb.src = imgSrc;
-                thumb.className = `thumb ${idx === currentImgIndex ? 'active' : ''}`;
-                thumb.addEventListener('click', () => {
-                    currentImgIndex = idx;
-                    updateMainImage();
-                    renderThumbnails();
-                });
-                thumbContainer.appendChild(thumb);
-            });
-        }
-
-        // carousel next/prev
-        prevBtn.addEventListener('click', () => {
-            if (currentImages.length === 0) return;
-            currentImgIndex = (currentImgIndex - 1 + currentImages.length) % currentImages.length;
-            updateMainImage();
-            renderThumbnails();
-        });
-        nextBtn.addEventListener('click', () => {
-            if (currentImages.length === 0) return;
-            currentImgIndex = (currentImgIndex + 1) % currentImages.length;
-            updateMainImage();
-            renderThumbnails();
-        });
-
-        // close modal
-        closeModal.addEventListener('click', () => modal.style.display = 'none');
-        window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
-
-        // modal book button
-        modalBookBtn.addEventListener('click', () => {
-            alert('📅 Booking request sent! (demo)');
-            modal.style.display = 'none';
-        });
-
-        // event delegation for details buttons
-        grid.addEventListener('click', (e) => {
-            const detailsBtn = e.target.closest('.details-btn');
-            if (detailsBtn) {
-                const id = detailsBtn.dataset.id;
-                openModal(id);
-            }
-        });
-
-        // initial render
-        renderProperties(properties);
-
-        // optional: reset filter (show all on page load)
-        document.getElementById('filterBtn').click(); // just to sync but we want initial all
-        // but we call render already, no need.
-        // avoid double call
-    })();
-</script>
-<!-- small style for heart toggle -->
-<style>
-    .wishlist-heart.active i { color: #d44c4c; }
-    .wishlist-heart i { transition: 0.1s; }
-</style>
+    <script src="script.js"></script>
 </body>
 </html>
