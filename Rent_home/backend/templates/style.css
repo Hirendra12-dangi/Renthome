@@ -1,0 +1,82 @@
+ * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { background-color: #f8f9fa; }
+
+/* Header & Wishlist Button */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 5%;
+    background: white;
+}
+.logo { font-size: 1.5rem; font-weight: bold; color: #333; }
+.logo span { color: #d44c4c; }
+
+.wishlist-trigger {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 6px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.badge { background: #d44c4c; color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.7rem; }
+
+/* Search Bar at Top */
+.search-section {
+    background: white;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #eee;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #dfe1e5;
+    padding: 8px 20px;
+    border-radius: 50px;
+    width: 90%;
+    max-width: 900px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.input-group { display: flex; align-items: center; flex: 1; }
+.input-group select, .input-group input { border: none; outline: none; padding: 10px; background: transparent; }
+
+.vertical-divider { width: 1px; height: 25px; background: #ddd; margin: 0 10px; }
+
+/* Spacing between Filter and Inputs */
+.search-spacer { width: 60px; } /* This is the specific gap you asked for */
+
+.action-group { display: flex; align-items: center; gap: 15px; }
+
+.filter-btn {
+    border: none; background: #f0f0f0; color: #555;
+    padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 500;
+}
+
+.search-main-btn {
+    background: #d44c4c; color: white; border: none;
+    padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold;
+}
+
+/* Modals (The "Small Pages") */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+}
+.modal-overlay.active { display: flex; }
+
+.small-page-modal {
+    background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 380px;
+}
+.modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
+.close-icon { cursor: pointer; color: #888; }
+
+/* Footer */
+.footer { background: #fff; padding: 40px 5%; margin-top: 50px; border-top: 1px solid #eee; }
+.footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
