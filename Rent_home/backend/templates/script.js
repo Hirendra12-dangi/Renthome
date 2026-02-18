@@ -1,20 +1,24 @@
-  
-   // Toggle Wishlist Modal
-function toggleWishlist() {
-    const overlay = document.getElementById('wishlistOverlay');
-    overlay.classList.toggle('active');
+  // Function to update the price number live as you slide
+const rangeInput = document.getElementById('priceRange');
+const priceText = document.getElementById('priceNum');
+
+if (rangeInput) {
+    rangeInput.addEventListener('input', function() {
+        priceText.innerText = this.value;
+    });
 }
 
-// Toggle Filter Modal
-function toggleFilter() {
-    const overlay = document.getElementById('filterOverlay');
-    overlay.classList.toggle('active');
+// Function to open and close any modal
+function toggleModal(modalId) {
+    const targetModal = document.getElementById(modalId);
+    if (targetModal) {
+        targetModal.classList.toggle('active');
+    }
 }
 
-// Close modals if background is clicked
-window.onclick = function(event) {
-    const filter = document.getElementById('filterOverlay');
-    const wishlist = document.getElementById('wishlistOverlay');
-    if (event.target == filter) filter.classList.remove('active');
-    if (event.target == wishlist) wishlist.classList.remove('active');
-}
+// Close the modal if the user clicks anywhere on the dark background
+window.addEventListener('click', function(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+        event.target.classList.remove('active');
+    }
+});

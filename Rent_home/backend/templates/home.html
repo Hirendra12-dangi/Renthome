@@ -3,91 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoomRent | Online Rental Service</title>
-    <link rel="stylesheet" href="style.css">
+    <title>RoomRent | Verified Room Rentals</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header class="main-header">
-        <div class="logo">exoti<span>Rent</span></div>
-        <button class="wishlist-trigger" onclick="toggleWishlist()">
-            <i class="fas fa-heart"></i> Wishlist <span class="badge" id="badge-count">0</span>
+    <nav class="navbar">
+        <div class="logo">Room<span>Rent</span></div>
+        <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
+            <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
         </button>
-    </header>
+    </nav>
 
-    <section class="search-section">
-        <div class="search-container">
-            <div class="search-box">
-                <div class="input-group">
-                    <select id="city-select">
-                        <option>Select City</option>
-                        <option>Mumbai</option>
-                        <option>Delhi</option>
-                        <option>Bangalore</option>
-                    </select>
-                    <div class="vertical-divider"></div>
-                    <input type="text" placeholder="Search Locality..." id="locality-input">
-                </div>
+    <section class="top-search-section">
+        <div class="search-box">
+            <div class="search-inputs">
+                <select id="city-select">
+                    <option>Select City</option>
+                    <option>Mumbai</option>
+                    <option>Delhi</option>
+                    <option>Bangalore</option>
+                </select>
+                <div class="divider"></div>
+                <input type="text" placeholder="Locality or Landmark..." id="loc-input">
+            </div>
 
-                <div class="search-spacer"></div>
+            <div class="search-spacer"></div>
 
-                <div class="action-group">
-                    <button class="filter-btn" onclick="toggleFilter()">
-                        <i class="fas fa-sliders-v"></i>Filters
-                    </button>
-                    <button class="search-main-btn">Search</button>
-                </div>
+            <div class="search-actions">
+                <button class="filter-btn" onclick="toggleModal('filterOverlay')">
+                    <i class="fas fa-sliders-h"></i> Filters
+                </button>
+                <button class="search-main-btn">Search</button>
             </div>
         </div>
     </section>
 
     <div class="modal-overlay" id="filterOverlay">
-        <div class="small-page-modal">
+        <div class="modal-card filter-card">
             <div class="modal-header">
-                <h3>Filters</h3>
-                <i class="fas fa-times close-icon" onclick="toggleFilter()"></i>
+                <h3>Refine Search</h3>
+                <i class="fas fa-times close-icon" onclick="toggleModal('filterOverlay')"></i>
             </div>
             <div class="modal-body">
                 <div class="filter-item">
-                    <label>Price Range ($)</label>
-                    <input type="range" min="500" max="10000" class="slider">
+                    <div class="price-row">
+                        <label>Max Price</label>
+                        <span class="price-val">$<span id="priceNum">5000</span></span>
+                    </div>
+                    <input type="range" min="500" max="10000" value="5000" step="100" class="slider" id="priceRange">
                 </div>
                 <div class="filter-item">
-                    <label>Rating</label>
+                    <label style="font-weight: bold; display: block; margin-bottom: 10px;">Rating</label>
                     <div class="chip-group">
-                        <button class="chip">4.5+</button>
-                        <button class="chip">4.0+</button>
-                        <button class="chip">All</button>
+                        <button class="chip active">All</button>
+                        <button class="chip">4.0+ ★</button>
+                        <button class="chip">4.5+ ★</button>
                     </div>
                 </div>
+                <button class="apply-btn" onclick="toggleModal('filterOverlay')">Apply Filters</button>
             </div>
-            <button class="apply-btn" onclick="toggleFilter()">Apply</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="wishlistOverlay">
-        <div class="small-page-modal">
+        <div class="modal-card">
             <div class="modal-header">
                 <h3>My Wishlist</h3>
-                <i class="fas fa-times close-icon" onclick="toggleWishlist()"></i>
+                <i class="fas fa-times close-icon" onclick="toggleModal('wishlistOverlay')"></i>
             </div>
-            <div class="wishlist-items" id="wishlist-content">
-                <p class="empty-text">Your wishlist is empty.</p>
+            <div class="modal-body wishlist-content">
+                <i class="far fa-heart heart-empty-icon"></i>
+                <p>Your wishlist is currently empty.</p>
             </div>
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-info">
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
                 <h4>About RoomRent</h4>
-                <p>Leading the way in verified online room rentals. Trusted by 2M+ users.</p>
+                <p>RoomRent is the most trusted online room rental service. We verify every listing to ensure you find a safe and comfortable home.</p>
             </div>
-            <div class="footer-links">
+            <div class="footer-col">
+                <h4>Support</h4>
                 <p>Email: help@roomrent.com</p>
-                <p>Toll Free: 1800-ROOM-RENT</p>
+                <p>Toll Free: 1800-419-4500</p>
+                <p>Available 24/7</p>
             </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <p>Privacy Policy</p>
+                <p>Terms & Conditions</p>
+                <p>Cookie Policy</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 RoomRent Interactive. All rights reserved.
         </div>
     </footer>
 

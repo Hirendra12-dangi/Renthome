@@ -1,82 +1,84 @@
- * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
+/* GENERAL RESET */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 body { background-color: #f8f9fa; }
 
-/* Header & Wishlist Button */
-.main-header {
+/* NAVBAR & WISHLIST BUTTON */
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 5%;
     background: white;
+    border-bottom: 1px solid #eee;
 }
-.logo { font-size: 1.5rem; font-weight: bold; color: #333; }
+.logo { font-size: 1.5rem; font-weight: 800; color: #2e3192; }
 .logo span { color: #d44c4c; }
 
 .wishlist-trigger {
     background: white;
     border: 1px solid #ddd;
-    padding: 6px 15px;
-    border-radius: 20px;
+    padding: 8px 16px;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 0.85rem;
+    font-weight: 600;
 }
-.badge { background: #d44c4c; color: white; padding: 2px 6px; border-radius: 50%; font-size: 0.7rem; }
+.badge { background: #d44c4c; color: white; padding: 2px 7px; border-radius: 50%; font-size: 0.75rem; }
 
-/* Search Bar at Top */
-.search-section {
+/* SEARCH BAR AT TOP */
+.top-search-section {
     background: white;
-    padding: 20px 0;
+    padding: 25px 0;
     display: flex;
     justify-content: center;
     border-bottom: 1px solid #eee;
 }
-
 .search-box {
     display: flex;
     align-items: center;
     background: white;
     border: 1px solid #dfe1e5;
-    padding: 8px 20px;
+    padding: 8px 25px;
     border-radius: 50px;
     width: 90%;
-    max-width: 900px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    max-width: 950px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
+.search-inputs { display: flex; align-items: center; flex: 2; }
+.search-inputs select, .search-inputs input { border: none; outline: none; padding: 10px; font-size: 1rem; width: 100%; }
+.divider { width: 1px; height: 30px; background: #eee; margin: 0 15px; }
 
-.input-group { display: flex; align-items: center; flex: 1; }
-.input-group select, .input-group input { border: none; outline: none; padding: 10px; background: transparent; }
+/* SPACER BETWEEN INPUTS AND BUTTONS */
+.search-spacer { width: 80px; }
 
-.vertical-divider { width: 1px; height: 25px; background: #ddd; margin: 0 10px; }
+.search-actions { display: flex; align-items: center; gap: 15px; }
+.filter-btn { background: #f1f3f4; border: none; padding: 12px 20px; border-radius: 25px; cursor: pointer; font-weight: 600; }
+.search-main-btn { background: #d44c4c; color: white; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-weight: 700; }
 
-/* Spacing between Filter and Inputs */
-.search-spacer { width: 60px; } /* This is the specific gap you asked for */
-
-.action-group { display: flex; align-items: center; gap: 15px; }
-
-.filter-btn {
-    border: none; background: #f0f0f0; color: #555;
-    padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 500;
-}
-
-.search-main-btn {
-    background: #d44c4c; color: white; border: none;
-    padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold;
-}
-
-/* Modals (The "Small Pages") */
+/* MODALS / SMALL PAGES */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; z-index: 1000;
+    background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+    display: none; justify-content: center; align-items: center; z-index: 1000;
 }
 .modal-overlay.active { display: flex; }
+.modal-card { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 400px; position: relative; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.close-icon { cursor: pointer; font-size: 1.3rem; color: #999; }
 
-.small-page-modal {
-    background: white; padding: 25px; border-radius: 15px; width: 90%; max-width: 380px;
-}
-.modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-.close-icon { cursor: pointer; color: #888; }
+/* FILTER ELEMENTS */
+.filter-card { border-top: 6px solid #d44c4c; }
+.price-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: bold; }
+.price-val { color: #d44c4c; background: #fff5f5; padding: 2px 10px; border-radius: 10px; }
+.slider { width: 100%; -webkit-appearance: none; height: 6px; background: #ddd; border-radius: 5px; outline: none; }
+.slider::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; background: #2e3192; border-radius: 50%; cursor: pointer; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.chip-group { display: flex; gap: 10px; margin-top: 10px; }
+.chip { padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; }
+.chip.active { background: #2e3192; color: white; border-color: #2e3192; }
+.apply-btn { width: 100%; padding: 15px; background: #2e3192; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 25px; }
 
-/* Footer */
-.footer { background: #fff; padding: 40px 5%; margin-top: 50px; border-top: 1px solid #eee; }
-.footer-container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+/* FOOTER */
+.site-footer { background: #1a1a1a; color: #fff; padding: 60px 5% 30px; margin-top: 100px; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; border-bottom: 1px solid #333; padding-bottom: 40px; }
+.footer-col h4 { margin-bottom: 20px; color: #d44c4c; }
+.footer-col p { color: #aaa; font-size: 0.9rem; margin-bottom: 10px; }
+.footer-bottom { text-align: center; padding-top: 30px; font-size: 0.8rem; color: #666; }
