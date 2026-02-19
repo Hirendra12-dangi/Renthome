@@ -1,46 +1,40 @@
-  // Function to update the price number live as you slide
-const rangeInput = document.getElementById('priceRange');
-const priceText = document.getElementById('priceNum');
-
-if (rangeInput) {
-    rangeInput.addEventListener('input', function() {
-        priceText.innerText = this.value;
-    });
+  // 1. Modal Toggle
+function toggleModal(id) {
+    const modal = document.getElementById(id);
+    if (modal) modal.classList.toggle('active');
 }
-
-// Function to open and close any modal
-function toggleModal(modalId) {
-    const targetModal = document.getElementById(modalId);
-    if (targetModal) {
-        targetModal.classList.toggle('active');
+// 2. Side Panel Toggle
+function toggleSidePanel() {
+    document.getElementById('sidePanel').classList.toggle('active');
+    document.getElementById('sidePanelOverlay').classList.toggle('active');
+}
+// 3. Price Slider Logic
+const slider = document.getElementById('priceRange');
+const priceVal = document.getElementById('priceNum');
+if (slider) {
+    slider.oninput = function() {
+  priceVal.innerText = this.value;
     }
 }
 
-// Close the modal if the user clicks anywhere on the dark background
-window.addEventListener('click', function(event) {
+// 4. Open Property Details (The "Small Page")
+function openProperty(title, price, address, type, amenities, contact, imgSrc) {
+    document.getElementById('detailTitle').innerText = title;
+    document.getElementById('detailPrice').innerText = price;
+    document.getElementById('detailAddress').innerText = address;
+    document.getElementById('detailType').innerText = type;
+    document.getElementById('detailAmenities').innerText = amenities;
+    document.getElementById('detailContact').innerText = contact;
+    document.getElementById('detailImg').src = imgSrc;
+    toggleModal('propertyModal');
+}
+
+// 5. Close on Outside Click
+window.onclick = function(event) {
     if (event.target.classList.contains('modal-overlay')) {
         event.target.classList.remove('active');
     }
-});
-
-
-
-function toggleSidePanel() {
-    const panel = document.getElementById('sidePanel');
-    const overlay = document.getElementById('sidePanelOverlay');
-    
-    // Toggle the 'active' class to slide the panel in or out
-    panel.classList.toggle('active');
-    overlay.classList.toggle('active');
-}
-
-// Update your existing window.onclick to close the side panel too
-window.addEventListener('click', function(event) {
-    const panel = document.getElementById('sidePanel');
-    const overlay = document.getElementById('sidePanelOverlay');
-    
-    if (event.target === overlay) {
-        panel.classList.remove('active');
-        overlay.classList.remove('active');
+    if (event.target.id === 'sidePanelOverlay') {
+        toggleSidePanel();
     }
-});
+}; 

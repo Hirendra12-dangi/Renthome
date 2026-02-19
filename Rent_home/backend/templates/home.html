@@ -3,26 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoomRent | Verified Room Rentals</title>
+    <title>ExoticRent | Verified Room Rentals</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <nav class="navbar">
         <div class="logo">Exotic<span>Rent</span></div>
-
         <div class="nav-right">
-    <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
-        <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
-    </button>
-    <button class="menu-toggle" onclick="toggleSidePanel()">
-        <i class="fas fa-bars"></i>
-    </button>
-</div>
-
+            <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
+                <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
+            </button>
+            <button class="menu-toggle" onclick="toggleSidePanel()">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
     </nav>
-
     <section class="top-search-section">
         <div class="search-box">
             <div class="search-inputs">
@@ -35,9 +31,7 @@
                 <div class="divider"></div>
                 <input type="text" placeholder="Locality or Landmark..." id="loc-input">
             </div>
-
             <div class="search-spacer"></div>
-
             <div class="search-actions">
                 <button class="filter-btn" onclick="toggleModal('filterOverlay')">
                     <i class="fas fa-sliders-h"></i> Filters
@@ -47,28 +41,47 @@
         </div>
     </section>
 
+    <section class="property-section">
+        <h2 class="section-title">Available Rentals</h2>
+        <div class="property-grid">
+            <div class="room-card" onclick="openProperty('Cozy Studio Apartment', '₹15,000', '123 Blue Valley, Mumbai', '1 BHK', 'Fully Furnished, Wifi, AC', '9876543210', 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800')">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400" alt="Room">
+                    <div class="property-tag">1 BHK</div>
+                </div>
+                <div class="room-info">
+                    <h3>Cozy Studio Apartment</h3>
+                    <p class="price">₹15,000/mo</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> Blue Valley, Mumbai</p>
+                </div>
+            </div>
+
+            <div class="room-card" onclick="openProperty('Modern Family Suite', '₹35,000', '45 Green Park, Delhi', '2 BHK', 'Gym, Parking, 24/7 Security', '9123456789', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800')">
+                <div class="img-container">
+                    <img src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400" alt="Room">
+                    <div class="property-tag">2 BHK</div>
+                </div>
+                <div class="room-info">
+                    <h3>Modern Family Suite</h3>
+                    <p class="price">₹35,000/mo</p>
+                    <p class="address"><i class="fas fa-map-marker-alt"></i> Green Park, Delhi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="modal-overlay" id="filterOverlay">
-        <div class="modal-card filter-card">
+        <div class="modal-card">
             <div class="modal-header">
                 <h3>Refine Search</h3>
                 <i class="fas fa-times close-icon" onclick="toggleModal('filterOverlay')"></i>
             </div>
-            <div class="modal-body">
-                <div class="filter-item">
-                    <div class="price-row">
-                        <label>Max Price</label>
-                        <span class="price-val">₹<span id="priceNum">5000</span></span>
-                    </div>
-                    <input type="range" min="2000" max="50000" value="5000" step="100" class="slider" id="priceRange">
+            <div class="modal-body" style="padding: 20px;">
+                <div class="price-row">
+                    <label>Max Price</label>
+                    <span class="price-val">₹<span id="priceNum">5000</span></span>
                 </div>
-                <div class="filter-item">
-                    <label style="font-weight: bold; display: block; margin-bottom: 10px;">Rating</label>
-                    <div class="chip-group">
-                        <button class="chip active">All</button>
-                        <button class="chip">4.0+ ★</button>
-                        <button class="chip">4.5+ ★</button>
-                    </div>
-                </div>
+                <input type="range" min="2000" max="50000" value="5000" class="slider" id="priceRange">
                 <button class="apply-btn" onclick="toggleModal('filterOverlay')">Apply Filters</button>
             </div>
         </div>
@@ -80,53 +93,78 @@
                 <h3>My Wishlist</h3>
                 <i class="fas fa-times close-icon" onclick="toggleModal('wishlistOverlay')"></i>
             </div>
-            <div class="modal-body wishlist-content">
-                <i class="far fa-heart heart-empty-icon"></i>
-                <p>Your wishlist is currently empty.</p>
+            <div class="modal-body" style="text-align: center; padding: 40px;">
+                <i class="far fa-heart" style="font-size: 3rem; color: #eee;"></i>
+                <p style="margin-top: 10px; color: #888;">Your wishlist is empty.</p>
             </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="propertyModal">
+        <div class="modal-card detail-card">
+            <div class="modal-header">
+                <h3 id="detailTitle">Property Details</h3>
+                <i class="fas fa-times close-icon" onclick="toggleModal('propertyModal')"></i>
+            </div>
+            <div class="modal-body">
+                <img id="detailImg" src="" alt="Property" class="detail-main-img">
+                <div class="detail-content">
+                    <div class="detail-row">
+                        <span class="detail-label">Price:</span>
+                        <span id="detailPrice" class="detail-value highlight"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Type:</span>
+                        <span id="detailType" class="detail-value"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Address:</span>
+                        <span id="detailAddress" class="detail-value"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Amenities:</span>
+                        <span id="detailAmenities" class="detail-value"></span>
+                    </div>
+                    <div class="contact-section">
+                        <p>CONTACT OWNER</p>
+                        <h4 id="detailContact"></h4>
+                    </div>
+                    <button class="apply-btn" style="margin-top: 15px;">Book Visit Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="side-panel-overlay" id="sidePanelOverlay" onclick="toggleSidePanel()"></div>
+    <div class="side-panel" id="sidePanel">
+        <div class="panel-header">
+            <div class="logo">Exotic<span>Rent</span></div>
+            <i class="fas fa-times close-panel" onclick="toggleSidePanel()"></i>
+        </div>
+        <div class="panel-links">
+            <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
+            <a href="#"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
+            <hr>
+            <a href="#"><i class="fas fa-cog"></i> Settings</a>
+            <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
+            <hr>
+            <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 
     <footer class="site-footer">
         <div class="footer-grid">
             <div class="footer-col">
-                <h4>About RoomRent</h4>
-                <p>RoomRent is the most trusted online room rental service. We verify every listing to ensure you find a safe and comfortable home.</p>
+                <h4>ExoticRent</h4>
+                <p>The most trusted room rental platform in India.</p>
             </div>
             <div class="footer-col">
                 <h4>Support</h4>
-                <p>Email: help@roomrent.com</p>
-                <p>Toll Free: 1800-419-4500</p>
-                <p>Available 24/7</p>
-            </div>
-            <div class="footer-col">
-                <h4>Legal</h4>
-                <p>Privacy Policy</p>
-                <p>Terms & Conditions</p>
-                <p>Cookie Policy</p>
+                <p>help@exoticrent.com</p>
+                <p>1800-419-4500</p>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; 2026 RoomRent Interactive. All rights reserved.
-        </div>
+        <div class="footer-bottom">&copy; 2026 ExoticRent Interactive.</div>
     </footer>
-
-    <div class="side-panel-overlay" id="sidePanelOverlay" onclick="toggleSidePanel()"></div>
-<div class="side-panel" id="sidePanel">
-    <div class="panel-header">
-        <div class="logo">Exotic<span>Rent</span></div>
-        <i class="fas fa-times close-panel" onclick="toggleSidePanel()"></i>
-    </div>
-    <div class="panel-links">
-        <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
-        <a href="#"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
-        <hr>
-        <a href="#"><i class="fas fa-cog"></i> Settings</a>
-        <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
-        <hr>
-        <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
-    </div>
-</div>
 
     <script src="script.js"></script>
 </body>
