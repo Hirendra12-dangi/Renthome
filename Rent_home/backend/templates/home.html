@@ -14,25 +14,99 @@
     <nav class="navbar">
         <div class="logo">Exotic<span>Rent</span></div>
         <div class="nav-right">
-            <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
-                <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
-            </button>
-            <a href="addhome.html" style="text-decoration: none;">
-                <button class="wishlist-trigger" style="background: var(--primary-color); color: white; border: none; display: flex; align-items: center; gap: 8px;">
-                    <i class="fas fa-home"></i> Add Room for Rent
-                </button>
-            </a>
-            <button class="wishlist-trigger" onclick="toggleModal('aboutOverlay')">
-                <i class="fas fa-info-circle"></i> About Us
-            </button>
-            <button id="login-logout-btn" class="wishlist-trigger" style="background: var(--accent-color); color: white; border: none;" onclick="handleLoginLogout()">
-                <i class="fas fa-sign-in-alt"></i> <span id="login-logout-text">Login</span>
-            </button>
-            <button class="menu-toggle" onclick="toggleSidePanel()">
-                <i class="fas fa-bars"></i>
+            <button class="menu-toggle" onclick="toggleFeatureMenu()" title="Menu">
+                <i class="fas fa-ellipsis-v"></i>
             </button>
         </div>
     </nav>
+
+    <!-- Feature Menu Drawer -->
+    <div class="feature-menu-overlay" id="featureMenuOverlay" onclick="toggleFeatureMenu()"></div>
+    <div class="feature-menu-drawer" id="featureMenuDrawer">
+        <div class="feature-menu-header">
+            <h3>Menu</h3>
+            <button class="close-feature-menu" onclick="toggleFeatureMenu()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="feature-menu-items">
+            <!-- Wishlist -->
+            <button class="feature-menu-item" onclick="openWishlistDrawer()">
+                <div class="feature-item-icon">
+                    <i class="fas fa-heart"></i>
+                    <span class="feature-badge" id="feature-wishlist-count">0</span>
+                </div>
+                <div class="feature-item-content">
+                    <h4>My Wishlist</h4>
+                    <p>View saved properties</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Add Home for Rent -->
+            <a href="addhome.html" class="feature-menu-item" style="text-decoration: none; color: inherit;">
+                <div class="feature-item-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="feature-item-content">
+                    <h4>Add Home for Rent</h4>
+                    <p>List your property</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </a>
+
+            <!-- About Us -->
+            <button class="feature-menu-item" onclick="openAboutDrawer()">
+                <div class="feature-item-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="feature-item-content">
+                    <h4>About ExoticRent</h4>
+                    <p>Learn about us</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Connect & Support -->
+            <button class="feature-menu-item" onclick="openSupportDrawer()">
+                <div class="feature-item-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="feature-item-content">
+                    <h4>Support & Help</h4>
+                    <p>Contact us for help</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Settings -->
+            <button class="feature-menu-item" onclick="openSettingsDrawer()">
+                <div class="feature-item-icon">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="feature-item-content">
+                    <h4>Settings</h4>
+                    <p>Manage preferences</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <hr style="margin: 15px 0; border: none; border-top: 2px solid var(--border-light);">
+
+            <!-- Login/Logout -->
+            <button class="feature-menu-item logout-item" id="login-logout-feature-btn" onclick="handleLoginLogout()">
+                <div class="feature-item-icon">
+                    <i class="fas fa-sign-in-alt" id="login-logout-feature-icon"></i>
+                </div>
+                <div class="feature-item-content">
+                    <h4 id="login-logout-feature-text">Login</h4>
+                    <p id="login-logout-feature-desc">Sign in to your account</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
     <section class="top-search-section">
         <div class="search-box">
             <div class="search-inputs">
@@ -172,21 +246,6 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="wishlistOverlay">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3><i class="fas fa-heart"></i> My Wishlist</h3>
-                <i class="fas fa-times close-icon" onclick="toggleModal('wishlistOverlay')"></i>
-            </div>
-            <div class="modal-body" id="wishlistBody">
-                <div style="text-align: center; padding: 40px;">
-                    <i class="far fa-heart" style="font-size: 3rem; color: #eee;"></i>
-                    <p style="margin-top: 10px; color: #888;">Your wishlist is empty.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="propertyModal">
         <div class="modal-card detail-card">
             <div class="modal-header">
@@ -277,29 +336,153 @@
             </div>
         </div>
     </div>
-    <div class="side-panel-overlay" id="sidePanelOverlay" onclick="toggleSidePanel()"></div>
-    <div class="side-panel" id="sidePanel">
-        <div class="panel-header">
-            <div class="logo">Exotic<span>Rent</span></div>
-            <i class="fas fa-times close-panel" onclick="toggleSidePanel()"></i>
+
+    <!-- About Us Drawer -->
+    <div class="drawer-panel" id="aboutDrawerPanel">
+        <div class="drawer-header">
+            <button onclick="closeAboutDrawer()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h3>About ExoticRent</h3>
         </div>
-        <div class="panel-links">
-            <a href="login.html"><i class="fas fa-user-circle"></i> Login / Register</a>
-            <a href="addhome.html"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
-            <hr>
-            <a href="javascript:void(0)" onclick="toggleModal('aboutOverlay')"><i class="fas fa-info-circle"></i> About Us</a>
-            <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            <hr>
-            <a href="javascript:void(0)" class="logout-link" onclick="handleLoginLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <div class="drawer-content">
+            <div class="drawer-section">
+                <h4><i class="fas fa-star"></i> Why Choose Us?</h4>
+                <ul>
+                    <li><strong>Verified Properties:</strong> All listings are verified for authenticity</li>
+                    <li><strong>Safe & Secure:</strong> Complete data security and privacy protection</li>
+                    <li><strong>Easy Process:</strong> Simple and transparent listing and booking</li>
+                    <li><strong>24/7 Support:</strong> Round the clock customer support</li>
+                    <li><strong>Trusted by Thousands:</strong> Join thousands of satisfied users</li>
+                </ul>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-hand-holding-heart"></i> Our Mission</h4>
+                <p style="color: var(--text-light); line-height: 1.6;">
+                    ExoticRent is dedicated to making room rentals easy, transparent, and trustworthy. We connect property owners with genuine tenants while ensuring complete data security and quality verification.
+                </p>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-globe"></i> Coverage</h4>
+                <ul>
+                    <li><strong>Mumbai</strong>, <strong>Delhi</strong>, <strong>Bangalore</strong> and many more cities</li>
+                    <li>Expanding nationwide with verified properties</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <!-- About Us Modal -->
-    <div class="modal-overlay" id="aboutOverlay">
+    <!-- Wishlist Drawer -->
+    <div class="drawer-panel" id="wishlistDrawerPanel">
+        <div class="drawer-header">
+            <button onclick="closeWishlistDrawer()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h3>My Wishlist</h3>
+        </div>
+        <div class="drawer-content" id="wishlistDrawerContent">
+            <div style="text-align: center; padding: 40px 0;">
+                <i class="far fa-heart" style="font-size: 3rem; color: #eee;"></i>
+                <p style="margin-top: 15px; color: var(--text-light);">Your wishlist is empty</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Drawer -->
+    <div class="drawer-panel" id="supportDrawerPanel">
+        <div class="drawer-header">
+            <button onclick="closeSupportDrawer()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h3>Support & Help</h3>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-section">
+                <h4><i class="fas fa-comments"></i> Get in Touch</h4>
+                <ul>
+                    <li><strong>Email:</strong> help@exoticrent.com</li>
+                    <li><strong>Phone:</strong> 1800-419-4500</li>
+                    <li><strong>Hours:</strong> 9 AM - 9 PM, Daily</li>
+                </ul>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-book"></i> Help Topics</h4>
+                <ul>
+                    <li><strong>How to post a property?</strong></li>
+                    <li><strong>How to search properties?</strong></li>
+                    <li><strong>Payment & Refunds</strong></li>
+                    <li><strong>Account Management</strong></li>
+                    <li><strong>Reporting Issues</strong></li>
+                </ul>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-question-circle"></i> FAQ</h4>
+                <p style="color: var(--text-light); font-size: 0.9rem;">
+                    Visit our Help Center for answers to frequently asked questions about property listings, bookings, and more.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Drawer -->
+    <div class="drawer-panel" id="settingsDrawerPanel">
+        <div class="drawer-header">
+            <button onclick="closeSettingsDrawer()">
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            <h3>Settings</h3>
+        </div>
+        <div class="drawer-content">
+            <div class="drawer-section">
+                <h4><i class="fas fa-sliders-h"></i> Preferences</h4>
+                <div style="padding: 15px 0;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <label style="color: var(--text-dark); font-weight: 600;">Email Notifications</label>
+                        <input type="checkbox" checked style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-color);">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <label style="color: var(--text-dark); font-weight: 600;">Push Notifications</label>
+                        <input type="checkbox" checked style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-color);">
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label style="color: var(--text-dark); font-weight: 600;">Dark Mode</label>
+                        <input type="checkbox" style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--primary-color);">
+                    </div>
+                </div>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-lock"></i> Account</h4>
+                <ul>
+                    <li><strong>Change Password</strong></li>
+                    <li><strong>Two-Factor Authentication</strong></li>
+                    <li><strong>Privacy Settings</strong></li>
+                    <li><strong>Delete Account</strong></li>
+                </ul>
+            </div>
+
+            <div class="drawer-section">
+                <h4><i class="fas fa-info-circle"></i> About</h4>
+                <ul>
+                    <li><strong>App Version:</strong> 1.0.0</li>
+                    <li><strong>Privacy Policy</strong></li>
+                    <li><strong>Terms of Service</strong></li>
+                    <li><strong>Rate Us</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Old modals (kept for backward compatibility) -->
+    <div class="modal-overlay" id="filterOverlay">
         <div class="modal-card" style="max-width: 600px;">
             <div class="modal-header">
                 <h3><i class="fas fa-info-circle"></i> About ExoticRent</h3>
-                <i class="fas fa-times close-icon" onclick="toggleModal('aboutOverlay')"></i>
+                <i class="fas fa-times close-icon" onclick="toggleModal('filterOverlay')"></i>
             </div>
             <div class="modal-body">
                 <div style="padding: 20px;">
@@ -342,10 +525,125 @@
 
     <script src="script.js"></script>
     <script>
-        // Check if user is logged in on page load
+        // Feature Menu Functions
+        function toggleFeatureMenu() {
+            const menu = document.getElementById('featureMenuDrawer');
+            const overlay = document.getElementById('featureMenuOverlay');
+            
+            if (menu.classList.contains('active')) {
+                closeFeatureMenu();
+            } else {
+                menu.classList.add('active');
+                overlay.classList.add('active');
+            }
+        }
+
+        function closeFeatureMenu() {
+            const menu = document.getElementById('featureMenuDrawer');
+            const overlay = document.getElementById('featureMenuOverlay');
+            menu.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        function switchDrawer(drawerPanel) {
+            // Close main menu
+            closeFeatureMenu();
+            // Open selected drawer
+            setTimeout(() => {
+                drawerPanel.classList.add('active');
+            }, 50);
+        }
+
+        function closeDrawer(drawerPanel) {
+            drawerPanel.classList.remove('active');
+        }
+
+        // Wishlist Drawer
+        function openWishlistDrawer() {
+            const panel = document.getElementById('wishlistDrawerPanel');
+            switchDrawer(panel);
+            updateWishlistDrawerContent();
+        }
+
+        function closeWishlistDrawer() {
+            closeDrawer(document.getElementById('wishlistDrawerPanel'));
+        }
+
+        function updateWishlistDrawerContent() {
+            const content = document.getElementById('wishlistDrawerContent');
+            
+            if (wishlist.length === 0) {
+                content.innerHTML = `
+                    <div style="text-align: center; padding: 40px 0;">
+                        <i class="far fa-heart" style="font-size: 3rem; color: #eee;"></i>
+                        <p style="margin-top: 15px; color: var(--text-light);">Your wishlist is empty</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const wishlistItems = wishlist.map(id => {
+                const prop = properties.find(p => p.id === id);
+                if (!prop) return '';
+                return `
+                    <div style="background: var(--bg-light); padding: 15px; border-radius: 8px; margin-bottom: 15px; cursor: pointer;" onclick="openProperty(${prop.id}); closeWishlistDrawer();">
+                        <div style="display: flex; gap: 12px;">
+                            <img src="${prop.image}" alt="${prop.title}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;">
+                            <div style="flex: 1;">
+                                <h5 style="margin: 0 0 5px 0; color: var(--text-dark); font-weight: 600;">${prop.title}</h5>
+                                <p style="margin: 0 0 8px 0; color: var(--text-light); font-size: 0.85rem;">${prop.address.split(',')[0]}</p>
+                                <p style="margin: 0; color: var(--accent-color); font-weight: 700; font-size: 1rem;">₹${prop.price.toLocaleString()}/mo</p>
+                            </div>
+                        </div>
+                        <button onclick="event.stopPropagation(); toggleWishlist(event, ${prop.id}); updateWishlistDrawerContent();" style="width: 100%; padding: 8px; margin-top: 10px; background: var(--accent-color); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: var(--transition);" onmouseover="this.style.background='#b83c3c'" onmouseout="this.style.background='var(--accent-color)'">
+                            Remove from Wishlist
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            content.innerHTML = `
+                <div style="margin-bottom: 20px; padding: 15px; background: var(--bg-light); border-radius: 8px; text-align: center;">
+                    <p style="margin: 0; color: var(--text-dark); font-weight: 600;">You have <strong>${wishlist.length}</strong> saved propert${wishlist.length > 1 ? 'ies' : 'y'}</p>
+                </div>
+                ${wishlistItems}
+            `;
+        }
+
+        // About Drawer
+        function openAboutDrawer() {
+            const panel = document.getElementById('aboutDrawerPanel');
+            switchDrawer(panel);
+        }
+
+        function closeAboutDrawer() {
+            closeDrawer(document.getElementById('aboutDrawerPanel'));
+        }
+
+        // Support Drawer
+        function openSupportDrawer() {
+            const panel = document.getElementById('supportDrawerPanel');
+            switchDrawer(panel);
+        }
+
+        function closeSupportDrawer() {
+            closeDrawer(document.getElementById('supportDrawerPanel'));
+        }
+
+        // Settings Drawer
+        function openSettingsDrawer() {
+            const panel = document.getElementById('settingsDrawerPanel');
+            switchDrawer(panel);
+        }
+
+        function closeSettingsDrawer() {
+            closeDrawer(document.getElementById('settingsDrawerPanel'));
+        }
+
+        // Check login status on page load
         window.addEventListener('DOMContentLoaded', function() {
             const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-            updateLoginButton(isLoggedIn);
+            updateLoginLogoutButton(isLoggedIn);
         });
 
         function handleLoginLogout() {
@@ -355,30 +653,55 @@
                 if (confirm('Are you sure you want to logout?')) {
                     localStorage.removeItem('userLoggedIn');
                     localStorage.removeItem('userName');
-                    updateLoginButton(false);
+                    updateLoginLogoutButton(false);
+                    closeFeatureMenu();
                     alert('You have been logged out successfully!');
                 }
             } else {
                 // Redirect to login
+                closeFeatureMenu();
                 window.location.href = 'login.html';
             }
         }
 
-        function updateLoginButton(isLoggedIn) {
-            const btn = document.getElementById('login-logout-btn');
-            const text = document.getElementById('login-logout-text');
+        function updateLoginLogoutButton(isLoggedIn) {
+            const btn = document.getElementById('login-logout-feature-btn');
+            const text = document.getElementById('login-logout-feature-text');
+            const desc = document.getElementById('login-logout-feature-desc');
+            const icon = document.getElementById('login-logout-feature-icon');
             
             if (isLoggedIn) {
-                btn.style.background = 'var(--success)';
+                btn.classList.add('logout-item');
                 text.textContent = 'Logout';
-                btn.title = 'Click to logout';
+                desc.textContent = 'Sign out from your account';
+                icon.className = 'fas fa-sign-out-alt';
             } else {
-                btn.style.background = 'var(--accent-color)';
+                btn.classList.remove('logout-item');
                 text.textContent = 'Login';
-                btn.title = 'Click to login';
+                desc.textContent = 'Sign in to your account';
+                icon.className = 'fas fa-sign-in-alt';
             }
         }
+
+        // Update wishlist badge in menu
+        window.addEventListener('DOMContentLoaded', function() {
+            const badge = document.getElementById('feature-wishlist-count');
+            if (badge) {
+                badge.textContent = wishlist.length;
+            }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('featureMenuDrawer');
+            const btn = document.querySelector('.menu-toggle');
+            if (menu && btn && !menu.contains(event.target) && !btn.contains(event.target)) {
+                closeFeatureMenu();
+            }
+        });
     </script>
+
+    <footer>
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>ExoticRent</h4>
@@ -392,8 +715,6 @@
         </div>
         <div class="footer-bottom">&copy; 2026 ExoticRent Interactive.</div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 
 </html>
