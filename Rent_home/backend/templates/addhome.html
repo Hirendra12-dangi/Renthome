@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Home Registration | List Your Property</title>
+    <meta name="description" content="Register your home for rent with all important details - location, images, owner information, and facilities">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDummyKey&libraries=places"></script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        }
+        .form-card {
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.95);
+        }
+        .input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.3);
+        }
+        .image-preview {
+            transition: all 0.3s ease;
+        }
+        .image-preview:hover {
+            transform: scale(1.05);
+        }
+        .map-container {
+            height: 300px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        .checkbox-item:hover {
+            background-color: #f3f4f6;
+        }
+        .price-slider::-webkit-slider-thumb {
+            appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+        }
+        .price-slider::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #4f46e5;
+            cursor: pointer;
+            border: none;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen p-4 md:p-6">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">Register Your Home for Rent</h1>
+            <p class="text-white text-opacity-90">List your property with all important details to find the perfect tenants</p>
+        </header>
+
+        <!-- Main Form Card -->
+        <div class="form-card rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Form Header -->
+            <div class="bg-indigo-700 text-white p-6">
+                <div class="flex flex-col md:flex-row items-center justify-between">
+                    <div class="mb-4 md:mb-0">
+                        <h1 class="text-2xl font-bold flex items-center gap-2">
+                            <i data-feather="home" class="w-7 h-7"></i>
+                            Rental Property Registration
+                        </h1>
+                        <p class="text-indigo-200 mt-1">Complete all sections for best visibility to potential tenants</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-white rounded-full p-2 text-indigo-700">
+                            <i data-feather="user" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">Property Owner</p>
+                            <p class="text-sm text-indigo-200">Register your home</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Indicator -->
+            <div class="px-6 pt-4 pb-2 bg-indigo-50">
+                <div class="flex justify-between text-sm font-medium text-gray-600">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center">1</div>
+                        <span>Property Details</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-indigo-200 text-indigo-700 flex items-center justify-center">2</div>
+                        <span>Owner Info</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-indigo-200 text-indigo-700 flex items-center justify-center">3</div>
+                        <span>Facilities</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-full bg-indigo-200 text-indigo-700 flex items-center justify-center">4</div>
+                        <span>Review & Submit</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Form -->
+            <form id="rental-form" class="p-6 space-y-8" method="POST" enctype="multipart/form-data">
+                <!-- Property Basic Information -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="info" class="w-5 h-5 text-indigo-600"></i>
+                        Property Information
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="propertyType" class="block text-gray-700 font-medium mb-2">Property Type <span class="text-red-500">*</span></label>
+                            <select id="propertyType" name="property_type" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" required>
+                                <option value="" disabled selected>Select property type</option>
+                                <option value="apartment">Apartment</option>
+                                <option value="house">Independent House</option>
+                                <option value="villa">Villa</option>
+                                <option value="flat">Flat</option>
+                                <option value="studio">Studio Apartment</option>
+                                <option value="penthouse">Penthouse</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="bedrooms" class="block text-gray-700 font-medium mb-2">Bedrooms <span class="text-red-500">*</span></label>
+                            <select id="bedrooms" name="bedrooms" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" required>
+                                <option value="" disabled selected>Select number of bedrooms</option>
+                                <option value="1">1 BHK</option>
+                                <option value="2">2 BHK</option>
+                                <option value="3">3 BHK</option>
+                                <option value="4">4 BHK</option>
+                                <option value="5">5+ BHK</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="bathrooms" class="block text-gray-700 font-medium mb-2">Bathrooms</label>
+                            <select id="bathrooms" name="bathrooms" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all">
+                                <option value="1">1 Bathroom</option>
+                                <option value="2" selected>2 Bathrooms</option>
+                                <option value="3">3 Bathrooms</option>
+                                <option value="4">4+ Bathrooms</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="builtupArea" class="block text-gray-700 font-medium mb-2">Built-up Area (sq. ft.) <span class="text-red-500">*</span></label>
+                            <input type="number" id="builtupArea" name="builtup_area" min="100" max="10000" step="10" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="e.g., 1200" required>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Location Section with Auto-fetch -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="map-pin" class="w-5 h-5 text-indigo-600"></i>
+                        Property Location
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="address" class="block text-gray-700 font-medium mb-2">Full Address <span class="text-red-500">*</span></label>
+                                <input type="text" id="address" name="address" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="Enter complete address" required>
+                            </div>
+
+                            <div class="flex items-end">
+                                <button type="button" id="fetchLocationBtn" class="w-full md:w-auto bg-indigo-100 hover:bg-indigo-200 text-indigo-700 font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                                    <i data-feather="navigation" class="w-4 h-4"></i>
+                                    Auto-fetch Current Location
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label for="city" class="block text-gray-700 font-medium mb-2">City <span class="text-red-500">*</span></label>
+                                <input type="text" id="city" name="city" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="e.g., Mumbai" required>
+                            </div>
+
+                            <div>
+                                <label for="state" class="block text-gray-700 font-medium mb-2">State <span class="text-red-500">*</span></label>
+                                <input type="text" id="state" name="state" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="e.g., Maharashtra" required>
+                            </div>
+
+                            <div>
+                                <label for="pincode" class="block text-gray-700 font-medium mb-2">Pincode</label>
+                                <input type="text" id="pincode" name="pincode" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="e.g., 400001">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-2">Location Map</label>
+                            <div id="map" class="map-container border border-gray-300">
+                                <!-- Map will be initialized here -->
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Map will show your property location after address is entered</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Rental Details -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="dollar-sign" class="w-5 h-5 text-indigo-600"></i>
+                        Rental Details
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="monthlyRent" class="block text-gray-700 font-medium mb-2">Monthly Rent (₹) <span class="text-red-500">*</span></label>
+                            <div class="flex items-center">
+                                <span class="bg-gray-100 p-3 border border-r-0 border-gray-300 rounded-l-lg">₹</span>
+                                <input type="number" id="monthlyRent" name="monthly_rent" min="1000" max="500000" step="500" class="w-full p-3 border border-gray-300 rounded-r-lg focus:outline-none input-focus transition-all" placeholder="e.g., 25000" required>
+                            </div>
+                            <div class="mt-4">
+                                <label class="block text-gray-700 font-medium mb-2">Rent Range: <span id="rentValue">₹15,000</span></label>
+                                <input type="range" min="5000" max="200000" value="15000" step="1000" class="w-full price-slider" id="rentSlider">
+                                <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                    <span>₹5,000</span>
+                                    <span>₹2,00,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label for="securityDeposit" class="block text-gray-700 font-medium mb-2">Security Deposit</label>
+                                <div class="flex items-center">
+                                    <span class="bg-gray-100 p-3 border border-r-0 border-gray-300 rounded-l-lg">₹</span>
+                                    <input type="number" id="securityDeposit" name="security_deposit" min="0" max="500000" step="1000" class="w-full p-3 border border-gray-300 rounded-r-lg focus:outline-none input-focus transition-all" placeholder="e.g., 50000">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="availableFrom" class="block text-gray-700 font-medium mb-2">Available From <span class="text-red-500">*</span></label>
+                                <input type="date" id="availableFrom" name="available_from" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="block text-gray-700 font-medium mb-2">Furnishing Status</label>
+                        <div class="flex flex-wrap gap-4">
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="furnishing" value="furnished" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300" checked>
+                                <span class="ml-2">Fully Furnished</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="furnishing" value="semi-furnished" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-2">Semi-Furnished</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="radio" name="furnishing" value="unfurnished" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                <span class="ml-2">Unfurnished</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Live Image Upload Section -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="image" class="w-5 h-5 text-indigo-600"></i>
+                        Property Images
+                    </h2>
+
+                    <div>
+                        <label for="propertyImages" class="block text-gray-700 font-medium mb-2">Upload Property Photos <span class="text-red-500">*</span></label>
+                        <p class="text-sm text-gray-500 mb-4">Upload clear images of living room, bedrooms, kitchen, bathroom, exterior, and amenities</p>
+
+                        <div class="flex items-center justify-center w-full">
+                            <label for="propertyImages" class="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-all">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <i data-feather="upload" class="w-12 h-12 text-gray-400 mb-4"></i>
+                                    <p class="text-lg font-medium text-gray-700">Click to upload or drag and drop</p>
+                                    <p class="text-sm text-gray-500 mt-1">JPG, PNG, WebP (max. 5MB each)</p>
+                                    <p class="text-xs text-gray-400 mt-2">Upload at least 3 photos for better visibility</p>
+                                </div>
+                                <input id="propertyImages" name="images" type="file" class="hidden" accept="image/*" multiple required>
+                            </label>
+                        </div>
+
+                        <!-- Image Preview Container -->
+                        <div id="imagePreviewContainer" class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+                            <h3 class="col-span-full text-lg font-medium text-gray-700">Uploaded Images (<span id="imageCount">0</span>)</h3>
+                            <!-- Image previews will be added here dynamically -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Owner Information -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="user" class="w-5 h-5 text-indigo-600"></i>
+                        Owner Information
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="ownerName" class="block text-gray-700 font-medium mb-2">Owner Name <span class="text-red-500">*</span></label>
+                            <input type="text" id="ownerName" name="owner_name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="Enter full name" required>
+                        </div>
+
+                        <div>
+                            <label for="ownerPhone" class="block text-gray-700 font-medium mb-2">Contact Number <span class="text-red-500">*</span></label>
+                            <input type="tel" id="ownerPhone" name="owner_phone" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="+91 9876543210" required>
+                        </div>
+
+                        <div>
+                            <label for="ownerEmail" class="block text-gray-700 font-medium mb-2">Email Address</label>
+                            <input type="email" id="ownerEmail" name="owner_email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="owner@example.com">
+                        </div>
+
+                        <div>
+                            <label for="ownerType" class="block text-gray-700 font-medium mb-2">Owner Type</label>
+                            <select id="ownerType" name="owner_type" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all">
+                                <option value="individual" selected>Individual Owner</option>
+                                <option value="agent">Property Agent</option>
+                                <option value="builder">Builder/Developer</option>
+                                <option value="company">Company/Organization</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label for="ownerAddress" class="block text-gray-700 font-medium mb-2">Owner Address (if different from property)</label>
+                        <textarea id="ownerAddress" name="owner_address" rows="2" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="Enter owner's correspondence address"></textarea>
+                    </div>
+                </section>
+
+                <!-- Facilities Section -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="check-square" class="w-5 h-5 text-indigo-600"></i>
+                        Property Facilities & Amenities
+                    </h2>
+
+                    <p class="text-gray-600 mb-4">Select all facilities available in your property</p>
+
+                    <div id="facilitiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Facilities will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Additional Information -->
+                <section>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <i data-feather="file-text" class="w-5 h-5 text-indigo-600"></i>
+                        Additional Information
+                    </h2>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label for="propertyDescription" class="block text-gray-700 font-medium mb-2">Property Description <span class="text-red-500">*</span></label>
+                            <textarea id="propertyDescription" name="description" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="Describe your property in detail (neighborhood, nearby facilities, special features, etc.)" required></textarea>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="preferredTenants" class="block text-gray-700 font-medium mb-2">Preferred Tenants</label>
+                                <select id="preferredTenants" name="preferred_tenants" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all">
+                                    <option value="any" selected>Any</option>
+                                    <option value="family">Family</option>
+                                    <option value="bachelors">Bachelors</option>
+                                    <option value="professionals">Working Professionals</option>
+                                    <option value="students">Students</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label for="parking" class="block text-gray-700 font-medium mb-2">Parking Available</label>
+                                <select id="parking" name="parking" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all">
+                                    <option value="none">No Parking</option>
+                                    <option value="one" selected>1 Vehicle</option>
+                                    <option value="two">2 Vehicles</option>
+                                    <option value="multiple">Multiple Vehicles</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="additionalNotes" class="block text-gray-700 font-medium mb-2">Additional Notes</label>
+                            <textarea id="additionalNotes" name="additional_notes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none input-focus transition-all" placeholder="Any other important information for tenants"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Terms and Submit -->
+                <section class="pt-6 border-t border-gray-200">
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <input type="checkbox" id="terms" name="terms" class="h-5 w-5 text-indigo-600 mt-1" required>
+                            <label for="terms" class="ml-2 text-gray-700">
+                                I confirm that all information provided is accurate to the best of my knowledge. I agree to the
+                                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Terms of Service</a> and
+                                <a href="#" class="text-indigo-600 hover:text-indigo-800 font-medium">Privacy Policy</a>.
+                            </label>
+                        </div>
+
+                        <div class="flex items-start">
+                            <input type="checkbox" id="verification" name="verification" class="h-5 w-5 text-indigo-600 mt-1">
+                            <label for="verification" class="ml-2 text-gray-700">
+                                I agree to property verification by our team for authenticity.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                        <button type="button" id="previewBtn" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                            <i data-feather="eye" class="w-5 h-5"></i>
+                            Preview Listing
+                        </button>
+
+                        <button type="submit" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition-all flex items-center justify-center gap-2">
+                            <i data-feather="check-circle" class="w-5 h-5"></i>
+                            Submit Property Listing
+                        </button>
+                    </div>
+                </section>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-white text-opacity-80 text-sm">
+            <p>© 2023 RentalHome Registration. All rights reserved.</p>
+            <p class="mt-1">Need help? Contact support@rentalhome.com or call +91 1800-123-4567</p>
+        </footer>
+    </div>
+
+    <script>
+        // Data layer for all dynamic content
+        const facilitiesData = [
+            { "id": "wifi", "name": "Wi-Fi", "icon": "wifi", "category": "Connectivity" },
+            { "id": "ac", "name": "Air Conditioning", "icon": "thermometer", "category": "Comfort" },
+            { "id": "heating", "name": "Heating", "icon": "thermometer", "category": "Comfort" },
+            { "id": "tv", "name": "TV", "icon": "tv", "category": "Entertainment" },
+            { "id": "washing", "name": "Washing Machine", "icon": "wind", "category": "Appliances" },
+            { "id": "dryer", "name": "Dryer", "icon": "sun", "category": "Appliances" },
+            { "id": "microwave", "name": "Microwave", "icon": "microwave", "category": "Kitchen" },
+            { "id": "oven", "name": "Oven", "icon": "thermometer", "category": "Kitchen" },
+            { "id": "refrigerator", "name": "Refrigerator", "icon": "box", "category": "Kitchen" },
+            { "id": "dishwasher", "name": "Dishwasher", "icon": "droplet", "category": "Kitchen" },
+            { "id": "parking", "name": "Parking", "icon": "car", "category": "Parking" },
+            { "id": "elevator", "name": "Elevator", "icon": "arrow-up", "category": "Accessibility" },
+            { "id": "gym", "name": "Gym", "icon": "activity", "category": "Amenities" },
+            { "id": "pool", "name": "Swimming Pool", "icon": "droplet", "category": "Amenities" },
+            { "id": "security", "name": "24/7 Security", "icon": "shield", "category": "Security" },
+            { "id": "balcony", "name": "Balcony", "icon": "home", "category": "Outdoor" },
+            { "id": "garden", "name": "Garden", "icon": "sun", "category": "Outdoor" },
+            { "id": "pets", "name": "Pets Allowed", "icon": "heart", "category": "Rules" },
+            { "id": "smoking", "name": "Smoking Allowed", "icon": "zap", "category": "Rules" },
+            { "id": "furnished", "name": "Fully Furnished", "icon": "package", "category": "Furnishing" }
+        ];
+
+        const propertyTypes = [
+            { "value": "apartment", "label": "Apartment" },
+            { "value": "house", "label": "Independent House" },
+            { "value": "villa", "label": "Villa" },
+            { "value": "flat", "label": "Flat" },
+            { "value": "studio", "label": "Studio Apartment" },
+            { "value": "penthouse", "label": "Penthouse" }
+        ];
+
+        const bedroomOptions = [
+            { "value": "1", "label": "1 BHK" },
+            { "value": "2", "label": "2 BHK" },
+            { "value": "3", "label": "3 BHK" },
+            { "value": "4", "label": "4 BHK" },
+            { "value": "5", "label": "5+ BHK" }
+        ];
+
+        // Reusable render functions
+        function renderFacilities(facilities) {
+            return facilities.map(facility => `
+                <div class="checkbox-item p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-all cursor-pointer">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" id="${facility.id}" name="facilities" value="${facility.id}" class="h-5 w-5 text-indigo-600 rounded focus:ring-indigo-500">
+                        <div class="ml-3 flex items-center gap-2">
+                            <i data-feather="${facility.icon}" class="w-4 h-4 text-gray-600"></i>
+                            <span class="text-gray-700">${facility.name}</span>
+                        </div>
+                    </label>
+                </div>
+            `).join("");
+        }
+
+        function renderImagePreview(file) {
+            const reader = new FileReader();
+            return new Promise((resolve) => {
+                reader.onload = function(e) {
+                    const previewId = 'preview-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    const previewHtml = `
+                        <div id="${previewId}" class="image-preview relative border border-gray-300 rounded-lg overflow-hidden">
+                            <img src="${e.target.result}" alt="Property image" class="w-full h-40 object-cover">
+                            <button type="button" onclick="removeImage('${previewId}')" class="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600">
+                                <i data-feather="x" class="w-4 h-4"></i>
+                            </button>
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-xs truncate">${file.name}</div>
+                        </div>
+                    `;
+                    resolve(previewHtml);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderSuccessMessage() {
+            return `
+                <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-feather="check-circle" class="w-8 h-8 text-green-600"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Property Listed Successfully!</h3>
+                            <p class="text-gray-600 mb-6">Your rental property has been registered and will be visible to potential tenants within 24 hours.</p>
+                            <div class="flex gap-3">
+                                <button onclick="closeSuccessMessage()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-all">
+                                    Done
+                                </button>
+                                <button onclick="addAnotherProperty()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-all">
+                                    Add Another
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Utility functions
+        function formatCurrency(amount) {
+            return '₹' + amount.toLocaleString('en-IN');
+        }
+
+        function removeImage(previewId) {
+            const element = document.getElementById(previewId);
+            if (element) {
+                element.remove();
+                updateImageCount();
+            }
+        }
+
+        function closeSuccessMessage() {
+            const message = document.querySelector('.fixed.inset-0');
+            if (message) message.remove();
+        }
+
+        function addAnotherProperty() {
+            closeSuccessMessage();
+            document.getElementById('rental-form').reset();
+            document.getElementById('imagePreviewContainer').innerHTML = '<h3 class="col-span-full text-lg font-medium text-gray-700">Uploaded Images (<span id="imageCount">0</span>)</h3>';
+            document.getElementById('imagePreviewContainer').classList.add('hidden');
+            document.getElementById('imageCount').textContent = '0';
+            document.getElementById('rentValue').textContent = formatCurrency(15000);
+            document.getElementById('rentSlider').value = 15000;
+
+            // Set available from date to today
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('availableFrom').value = formattedDate;
+
+            feather.replace();
+        }
+
+        function updateImageCount() {
+            const container = document.getElementById('imagePreviewContainer');
+            const images = container.querySelectorAll('.image-preview');
+            document.getElementById('imageCount').textContent = images.length;
+
+            if (images.length === 0) {
+                container.classList.add('hidden');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Feather icons
+            feather.replace();
+
+            // Set current date as default for available from
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('availableFrom').value = formattedDate;
+
+            // Render facilities
+            document.getElementById('facilitiesContainer').innerHTML = renderFacilities(facilitiesData);
+
+            // Format rent value
+            const rentSlider = document.getElementById('rentSlider');
+            const rentValue = document.getElementById('rentValue');
+
+            rentSlider.addEventListener('input', function() {
+                const value = parseInt(this.value);
+                rentValue.textContent = formatCurrency(value);
+                document.getElementById('monthlyRent').value = value;
+            });
+
+            // Initialize map placeholder
+            const mapElement = document.getElementById('map');
+            if (mapElement) {
+                mapElement.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-100"><div class="text-center"><i data-feather="map" class="w-12 h-12 text-gray-400 mx-auto mb-2"></i><p class="text-gray-500">Enter address to load map</p></div></div>';
+                feather.replace();
+            }
+
+            // Auto-fetch location button
+            document.getElementById('fetchLocationBtn').addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+
+                        // Use reverse geocoding to get address (simulated)
+                        document.getElementById('address').value = "Fetched location: " + lat.toFixed(6) + ", " + lng.toFixed(6);
+                        document.getElementById('city').value = "Current City";
+                        document.getElementById('state').value = "Current State";
+
+                        // Update map placeholder
+                        mapElement.innerHTML = '<div class="w-full h-full flex items-center justify-center bg-gray-100"><div class="text-center"><i data-feather="check-circle" class="w-12 h-12 text-green-500 mx-auto mb-2"></i><p class="text-gray-700">Location fetched successfully</p><p class="text-sm text-gray-500">Lat: ' + lat.toFixed(6) + ', Lng: ' + lng.toFixed(6) + '</p></div></div>';
+                        feather.replace();
+
+                        alert("Location fetched successfully! Please verify and update address details if needed.");
+                    }, function(error) {
+                        alert("Unable to fetch location. Please enter address manually. Error: " + error.message);
+                    });
+                } else {
+                    alert("Geolocation is not supported by this browser. Please enter address manually.");
+                }
+            });
+
+            // Handle image upload and preview
+            document.getElementById('propertyImages').addEventListener('change', async function(e) {
+                const files = Array.from(this.files);
+                const container = document.getElementById('imagePreviewContainer');
+
+                if (files.length > 0) {
+                    container.classList.remove('hidden');
+
+                    // Clear existing previews except the title
+                    const title = container.querySelector('h3');
+                    container.innerHTML = '';
+                    if (title) container.appendChild(title);
+
+                    // Process each file
+                    for (const file of files) {
+                        if (file.type.startsWith('image/')) {
+                            const previewHtml = await renderImagePreview(file);
+                            container.insertAdjacentHTML('beforeend', previewHtml);
+                        }
+                    }
+
+                    updateImageCount();
+                    feather.replace();
+                } else {
+                    container.classList.add('hidden');
+                }
+            });
+
+            // Form submission
+            document.getElementById('rental-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Basic validation
+                const requiredFields = ['propertyType', 'bedrooms', 'builtupArea', 'address', 'city', 'state', 'monthlyRent', 'availableFrom', 'ownerName', 'ownerPhone', 'propertyDescription'];
+                let isValid = true;
+
+                requiredFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    if (!field.value.trim()) {
+                        isValid = false;
+                        field.classList.add('border-red-500');
+                    } else {
+                        field.classList.remove('border-red-500');
+                    }
+                });
+
+                if (!document.getElementById('terms').checked) {
+                    isValid = false;
+                    alert("Please accept the terms and conditions.");
+                }
+
+                if (isValid) {
+                    // Show success message
+                    document.body.insertAdjacentHTML('beforeend', renderSuccessMessage());
+                    feather.replace();
+                } else {
+                    alert("Please fill in all required fields marked with *");
+                }
+            });
+
+            // Preview button
+            document.getElementById('previewBtn').addEventListener('click', function() {
+                alert("Preview functionality would show a summary of your listing. All form data looks valid!");
+            });
+        });
+    </script>
+</body>
+</html>
