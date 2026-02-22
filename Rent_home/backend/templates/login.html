@@ -4,230 +4,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Renthome - Login</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
+    <title>ExoticRent - Login/Register</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
         }
 
-        .gradient-bg {
-            background: linear-gradient(135deg, #f0fdf4 0%, #f0f9ff 100%);
+        .login-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
         }
 
-        .tab-active {
-            background-color: #16a34a;
+        .login-left {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .login-left h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .login-left p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .feature-item strong {
+            color: var(--text-dark);
+            font-weight: 700;
+        }
+
+        .feature-item span {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .login-right {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a4d 100%);
             color: white;
+            padding: 30px;
+            text-align: center;
         }
 
-        .input-icon {
-            padding-left: 2.5rem;
+        .login-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .hero-image-overlay {
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+        .login-header p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        .btn-primary {
-            background-color: #16a34a;
-            transition: all 0.3s ease;
+        .tab-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            padding: 15px;
+            background-color: var(--bg-light);
+            border-bottom: 2px solid var(--border-light);
         }
 
-        .btn-primary:hover {
-            background-color: #15803d;
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            background-color: white;
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-group input {
+            padding: 12px 14px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 49, 146, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #1a1a5e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46, 49, 146, 0.3);
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .back-home:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .login-left h1 {
+                font-size: 1.8rem;
+            }
+
+            .login-right {
+                order: 2;
+            }
         }
     </style>
 </head>
 
-<body class="gradient-bg min-h-screen">
-    <!-- Header -->
-    <div class="bg-white shadow-sm p-4">
-        <div class="flex items-center justify-between max-w-6xl mx-auto">
-            <div class="flex items-center space-x-3">
-                <button onclick="history.back()"
-                    class="text-gray-600 hover:text-gray-800 mr-2 p-2 rounded-full hover:bg-gray-100">
-                    <i data-feather="arrow-left" class="w-4 h-4"></i>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">Exotic<span>Rent</span></div>
+        <div class="nav-right">
+            <a href="home.html" style="text-decoration: none;">
+                <button class="wishlist-trigger" style="background: var(--primary-color); color: white; border: none;">
+                    <i class="fas fa-arrow-left"></i> Back to Home
                 </button>
-                <!-- Logo Image -->
-                <div class="w-16 h-16 flex items-center justify-center">
-                    <i data-feather="home" class="w-10 h-10 text-green-600"></i>
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold text-gray-900">ExoticRent</h1>
-                    <p class="text-xs text-gray-500">Verified Room Rentals</p>
-                </div>
-            </div>
-            <div class="flex space-x-2">
-                <button onclick="window.location.href='home.html'"
-                    class="flex items-center text-orange-600 px-3 py-1 rounded-md hover:bg-orange-50">
-                    <i data-feather="home" class="w-4 h-4 mr-1"></i>
-                    Home
-                </button>
-            </div>
+            </a>
         </div>
-    </div>
+    </nav>
 
-    <!-- Body -->
-    <div class="p-4 max-w-md mx-auto">
-        <!-- Hero Section -->
-        <div class="text-center mb-8 mt-4" data-aos="fade-up">
-            <div class="relative w-full h-48 rounded-2xl overflow-hidden mb-4">
-                <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800" alt="Beautiful apartment"
-                    class="w-full h-full object-cover">
-                <div class="hero-image-overlay absolute inset-0"></div>
-                <div class="absolute bottom-4 left-4 text-white">
-                    <h2 class="text-lg font-semibold">Find Your Home</h2>
-                    <p class="text-sm text-white/90">Premium verified properties</p>
-                </div>
+    <!-- Main Content -->
+    <div class="login-container">
+        <!-- Left Section -->
+        <div class="login-left">
+            <div>
+                <h1>Welcome to ExoticRent</h1>
+                <p>Find verified rental properties or list your own room for rent with complete transparency and security.</p>
             </div>
-        </div>
 
-        <!-- Login/Register Tabs -->
-        <div data-aos="fade-up" data-aos-delay="200">
-            <div class="tabs-container w-full">
-                <div class="grid grid-cols-2 gap-1 w-full mb-6 bg-gray-100 p-1 rounded-lg">
-                    <button id="login-tab"
-                        class="tab-button py-2 px-4 rounded-md font-medium text-center tab-active">Login</button>
-                    <button id="register-tab"
-                        class="tab-button py-2 px-4 rounded-md font-medium text-center">Register</button>
-                </div>
-
-                <!-- Login Tab Content -->
-                <div id="login-content" class="tab-content">
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-1">Welcome Back</h3>
-                            <p class="text-gray-500 text-sm mb-6">Login to report issues and track progress</p>
-                            {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                            {% for category, message in messages %}
-                            <div class="alert {{ category }}">{{ message }}</div>
-                            {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                            <form method="POST" action="{{ url_for('login') }}">
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Email</label>
-                                    <div class="relative">
-                                        <i data-feather="mail" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input type="email" name="email" placeholder="Enter your email"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">Password</label>
-                                    <div class="relative">
-                                        <i data-feather="lock" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input type="password" name="password" placeholder="Enter your password"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <button type="submit"
-                                    class="w-full btn-primary text-white py-2 px-4 rounded-md font-medium">Login</button>
-                            </form>
-                        </div>
+            <div class="features-list">
+                <div class="feature-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>
+                        <strong>Verified Listings</strong><br>
+                        <span>All properties are verified for authenticity and legitimacy.</span>
                     </div>
                 </div>
 
-                <!-- Register Tab Content -->
-                <div id="register-content" class="tab-content hidden">
-                    <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                        <div class="p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-1">Create Account</h3>
-                            <p class="text-gray-500 text-sm mb-6">Join the community and find your perfect home</p>
-                            {% with messages = get_flashed_messages(with_categories=true) %}
-                            {% if messages %}
-                            {% for category, message in messages %}
-                            <div class="alert {{ category }}">{{ message }}</div>
-                            {% endfor %}
-                            {% endif %}
-                            {% endwith %}
-                            <form method="POST" action="{{ url_for('register') }}">
-                                <div class="space-y-2">
-                                    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-                                    <div class="relative">
-                                        <i data-feather="user" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input id="name" name="name" type="text" placeholder="Enter your full name"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                    <div class="relative">
-                                        <i data-feather="mail" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input id="email" name="email" type="email" placeholder="Enter your email"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone
-                                        Number</label>
-                                    <div class="relative">
-                                        <i data-feather="phone" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input id="phone" name="phone" type="tel" placeholder="Enter your phone number"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <label for="password"
-                                        class="block text-sm font-medium text-gray-700">Password</label>
-                                    <div class="relative">
-                                        <i data-feather="lock" class="absolute left-3 top-3 h-4 w-4 text-gray-400"></i>
-                                        <input id="password" name="password" type="password"
-                                            placeholder="Create a password"
-                                            class="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-500 focus:border-green-500 input-icon"
-                                            required />
-                                    </div>
-                                </div>
-                                <button type="submit"
-                                    class="w-full btn-primary text-white py-2 px-4 rounded-md font-medium">Register</button>
-                            </form>
-                        </div>
+                <div class="feature-item">
+                    <i class="fas fa-lock"></i>
+                    <div>
+                        <strong>Safe & Secure</strong><br>
+                        <span>Your data and privacy are protected with industry-standard security.</span>
                     </div>
                 </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-headset"></i>
+                    <div>
+                        <strong>24/7 Support</strong><br>
+                        <span>Our support team is always available to help you anytime.</span>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <strong>Easy Process</strong><br>
+                        <span>Simple and transparent process for listing and booking properties.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Section - Login/Register Form -->
+        <div class="login-right">
+            <div class="login-header">
+                <h2><i class="fas fa-user-circle"></i> Account Access</h2>
+                <p>Login to your account or create a new one</p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="switchTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button class="tab-button" onclick="switchTab('register')">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login" class="tab-content active">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-sign-in-alt"></i> Login to Account
+                    </button>
+
+                    <p style="text-align: center; margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                        <a href="#" style="color: var(--primary-color); text-decoration: none;">Forgot password?</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register" class="tab-content">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="register-name">Full Name</label>
+                        <input type="text" id="register-name" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-email">Email Address</label>
+                        <input type="email" id="register-email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-phone">Phone Number</label>
+                        <input type="tel" id="register-phone" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-password">Create Password</label>
+                        <input type="password" id="register-password" placeholder="Create a strong password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-confirm">Confirm Password</label>
+                        <input type="password" id="register-confirm" placeholder="Confirm your password" required>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px;">
+                        <input type="checkbox" id="terms" required>
+                        <label for="terms" style="margin: 0; font-size: 0.9rem;">
+                            I agree to the <a href="#" style="color: var(--primary-color);">Terms of Service</a> and <a href="#" style="color: var(--primary-color);">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        // Initialize AOS animations
-        AOS.init();
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.getElementById('login').classList.remove('active');
+            document.getElementById('register').classList.remove('active');
 
-        // Initialize feather icons
-        feather.replace();
+            // Deactivate all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
 
-        // Tab switching functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const loginTab = document.getElementById('login-tab');
-            const registerTab = document.getElementById('register-tab');
-            const loginContent = document.getElementById('login-content');
-            const registerContent = document.getElementById('register-content');
+            // Show selected tab and activate button
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-button').classList.add('active');
+        }
 
-            loginTab.addEventListener('click', function () {
-                loginTab.classList.add('tab-active');
-                registerTab.classList.remove('tab-active');
-                loginContent.classList.remove('hidden');
-                registerContent.classList.add('hidden');
-            });
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
 
-            registerTab.addEventListener('click', function () {
-                registerTab.classList.add('tab-active');
-                loginTab.classList.remove('tab-active');
-                registerContent.classList.remove('hidden');
-                loginContent.classList.add('hidden');
-            });
-        });
+            // Store login state in localStorage
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', email.split('@')[0]);
+            localStorage.setItem('userEmail', email);
+
+            alert('Welcome back! You have been logged in successfully.');
+            window.location.href = 'home.html';
+        }
+
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const confirm = document.getElementById('register-confirm').value;
+
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Store user data
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', name);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPhone', phone);
+
+            alert('Account created successfully! Welcome to ExoticRent!');
+            window.location.href = 'home.html';
+        }
     </script>
 </body>
 

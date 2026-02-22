@@ -17,6 +17,17 @@
             <button class="wishlist-trigger" onclick="toggleModal('wishlistOverlay')">
                 <i class="fas fa-heart"></i> Wishlist <span class="badge" id="wishlist-count">0</span>
             </button>
+            <a href="addhome.html" style="text-decoration: none;">
+                <button class="wishlist-trigger" style="background: var(--primary-color); color: white; border: none; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-home"></i> Add Room for Rent
+                </button>
+            </a>
+            <button class="wishlist-trigger" onclick="toggleModal('aboutOverlay')">
+                <i class="fas fa-info-circle"></i> About Us
+            </button>
+            <button id="login-logout-btn" class="wishlist-trigger" style="background: var(--accent-color); color: white; border: none;" onclick="handleLoginLogout()">
+                <i class="fas fa-sign-in-alt"></i> <span id="login-logout-text">Login</span>
+            </button>
             <button class="menu-toggle" onclick="toggleSidePanel()">
                 <i class="fas fa-bars"></i>
             </button>
@@ -274,16 +285,100 @@
         </div>
         <div class="panel-links">
             <a href="login.html"><i class="fas fa-user-circle"></i> Login / Register</a>
-            <a href="#"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
+            <a href="addhome.html"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
             <hr>
+            <a href="javascript:void(0)" onclick="toggleModal('aboutOverlay')"><i class="fas fa-info-circle"></i> About Us</a>
             <a href="#"><i class="fas fa-cog"></i> Settings</a>
-            <a href="#"><i class="fas fa-info-circle"></i> About Us</a>
             <hr>
-            <a href="#" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="javascript:void(0)" class="logout-link" onclick="handleLoginLogout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 
-    <footer class="site-footer">
+    <!-- About Us Modal -->
+    <div class="modal-overlay" id="aboutOverlay">
+        <div class="modal-card" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-info-circle"></i> About ExoticRent</h3>
+                <i class="fas fa-times close-icon" onclick="toggleModal('aboutOverlay')"></i>
+            </div>
+            <div class="modal-body">
+                <div style="padding: 20px;">
+                    <h4 style="color: var(--primary-color); margin-bottom: 15px; font-size: 1.1rem; font-weight: 700;">Welcome to ExoticRent</h4>
+                    
+                    <p style="color: var(--text-light); line-height: 1.6; margin-bottom: 15px;">
+                        ExoticRent is India's most trusted and verified room rental platform, connecting property owners with genuine tenants. With a focus on transparency and quality verification, we make finding your perfect home easy and reliable.
+                    </p>
+
+                    <h5 style="color: var(--primary-color); margin: 20px 0 10px 0; font-weight: 700;">Why Choose ExoticRent?</h5>
+                    <ul style="color: var(--text-light); line-height: 1.8; padding-left: 20px;">
+                        <li><strong>✓ Verified Properties:</strong> All listings are verified for authenticity</li>
+                        <li><strong>✓ Safe & Secure:</strong> Complete data security and privacy protection</li>
+                        <li><strong>✓ Easy Process:</strong> Simple and transparent listing and booking process</li>
+                        <li><strong>✓ 24/7 Support:</strong> Round the clock customer support</li>
+                        <li><strong>✓ Trusted by Thousands:</strong> Join thousands of satisfied users</li>
+                    </ul>
+
+                    <h5 style="color: var(--primary-color); margin: 20px 0 10px 0; font-weight: 700;">Our Services</h5>
+                    <ul style="color: var(--text-light); line-height: 1.8; padding-left: 20px;">
+                        <li>Browse verified rental properties</li>
+                        <li>List your property for rent</li>
+                        <li>Direct communication with landlords</li>
+                        <li>Virtual tours and property details</li>
+                        <li>Secure booking confirmations</li>
+                    </ul>
+
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--border-light); text-align: center;">
+                        <p style="color: var(--text-light); font-size: 0.9rem;">
+                            <strong>Contact Us:</strong><br>
+                            Email: help@exoticrent.com<br>
+                            Phone: 1800-419-4500<br>
+                            Website: www.exoticrent.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            updateLoginButton(isLoggedIn);
+        });
+
+        function handleLoginLogout() {
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            if (isLoggedIn) {
+                // Logout
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('userLoggedIn');
+                    localStorage.removeItem('userName');
+                    updateLoginButton(false);
+                    alert('You have been logged out successfully!');
+                }
+            } else {
+                // Redirect to login
+                window.location.href = 'login.html';
+            }
+        }
+
+        function updateLoginButton(isLoggedIn) {
+            const btn = document.getElementById('login-logout-btn');
+            const text = document.getElementById('login-logout-text');
+            
+            if (isLoggedIn) {
+                btn.style.background = 'var(--success)';
+                text.textContent = 'Logout';
+                btn.title = 'Click to logout';
+            } else {
+                btn.style.background = 'var(--accent-color)';
+                text.textContent = 'Login';
+                btn.title = 'Click to login';
+            }
+        }
+    </script>
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>ExoticRent</h4>
