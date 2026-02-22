@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ExoticRent | Verified Room Rentals</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="logo">Exotic<span>Rent</span></div>
@@ -54,7 +56,7 @@
                 </button>
             </div>
         </div>
-        
+
         <div class="filter-info">
             <span id="results-count">Showing <strong>2</strong> properties</span>
             <button class="sort-btn" onclick="toggleSortMenu()">
@@ -93,9 +95,10 @@
                 <div class="filter-section">
                     <label><strong>Price Range</strong></label>
                     <div class="price-row">
-                        <span class="price-val">₹<span id="priceNum">5000</span> - ₹<span id="priceMaxNum">50000</span></span>
+                        <span class="price-val">₹2000 - ₹<span id="priceNum">50000</span></span>
                     </div>
-                    <input type="range" min="2000" max="50000" value="5000" class="slider" id="priceRange" oninput="updatePriceFilter()">
+                    <input type="range" min="2000" max="50000" value="50000" class="slider" id="priceRange"
+                        oninput="updatePriceFilter()">
                 </div>
 
                 <!-- City -->
@@ -150,7 +153,8 @@
                 </div>
 
                 <div class="filter-actions">
-                    <button class="apply-btn" onclick="applyFilters(); toggleModal('filterOverlay')">Apply Filters</button>
+                    <button class="apply-btn" onclick="applyFilters(); toggleModal('filterOverlay')">Apply
+                        Filters</button>
                     <button class="clear-btn" onclick="clearFilters()">Clear All</button>
                 </div>
             </div>
@@ -179,12 +183,8 @@
                     <h3 id="detailTitle">Property Details</h3>
                     <div class="property-rating">
                         <span id="detailRating">4.5</span>
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
+                        <div class="stars" id="detailStars">
+                            <!-- Stars will be dynamically loaded here by script.js -->
                         </div>
                         <span id="detailReviews">(28 reviews)</span>
                     </div>
@@ -204,7 +204,7 @@
                         <span id="detailPrice" class="detail-price highlight"></span>
                         <span class="security-deposit">Security Deposit: ₹5,000</span>
                     </div>
-                    
+
                     <div class="detail-specs">
                         <div class="spec-item">
                             <i class="fas fa-home"></i>
@@ -253,7 +253,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="booking-section">
                         <button class="apply-btn" onclick="bookVisit()">
                             <i class="fas fa-calendar"></i> Book Visit Now
@@ -273,7 +273,7 @@
             <i class="fas fa-times close-panel" onclick="toggleSidePanel()"></i>
         </div>
         <div class="panel-links">
-            <a href="#"><i class="fas fa-user-circle"></i> Login / Register</a>
+            <a href="login.html"><i class="fas fa-user-circle"></i> Login / Register</a>
             <a href="#"><i class="fas fa-plus-circle"></i> Add Rooms for Rent</a>
             <hr>
             <a href="#"><i class="fas fa-cog"></i> Settings</a>
@@ -300,4 +300,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

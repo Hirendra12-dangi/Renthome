@@ -1,4 +1,4 @@
-  // ============================================
+// ============================================
 // PROPERTY DATA
 // ============================================
 const properties = [
@@ -100,7 +100,7 @@ let displayedCount = 2;
 // ============================================
 // INITIALIZATION
 // ============================================
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeApp();
 });
 
@@ -108,7 +108,6 @@ function initializeApp() {
     renderProperties();
     updateWishlistCount();
     setupPriceSlider();
-    restoreWishlistState();
 }
 
 // ============================================
@@ -117,16 +116,16 @@ function initializeApp() {
 function renderProperties() {
     const grid = document.getElementById('propertyGrid');
     const noResults = document.getElementById('noResults');
-    
+
     if (filteredProperties.length === 0) {
         grid.innerHTML = '';
         noResults.style.display = 'block';
         return;
     }
-    
+
     noResults.style.display = 'none';
     const propertiesToDisplay = filteredProperties.slice(0, displayedCount);
-    
+
     grid.innerHTML = propertiesToDisplay.map(property => `
         <div class="room-card" onclick="openProperty(${property.id})">
             <div class="img-container">
@@ -152,9 +151,9 @@ function renderProperties() {
             </div>
         </div>
     `).join('');
-    
+
     updateResultsCount();
-    
+
     // Hide/Show load more button
     const loadMoreBtn = document.getElementById('loadMoreContainer');
     if (displayedCount < filteredProperties.length) {
@@ -170,13 +169,13 @@ function renderProperties() {
 function toggleWishlist(event, propertyId) {
     event.stopPropagation();
     const index = wishlist.indexOf(propertyId);
-    
+
     if (index > -1) {
         wishlist.splice(index, 1);
     } else {
         wishlist.push(propertyId);
     }
-    
+
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
     updateWishlistCount();
     renderProperties();
@@ -187,7 +186,7 @@ function toggleWishlistFromDetail() {
     const currentProperty = filteredProperties[0];
     if (currentProperty) {
         const propertyId = currentProperty.id;
-        toggleWishlist({ stopPropagation: () => {} }, propertyId);
+        toggleWishlist({ stopPropagation: () => { } }, propertyId);
         updateDetailWishlistButton(propertyId);
     }
 }
@@ -214,7 +213,7 @@ function updateWishlistCount() {
 
 function updateWishlistModal() {
     const wishlistBody = document.getElementById('wishlistBody');
-    
+
     if (wishlist.length === 0) {
         wishlistBody.innerHTML = `
             <div style="text-align: center; padding: 40px;">
@@ -224,7 +223,7 @@ function updateWishlistModal() {
         `;
         return;
     }
-    
+
     const wishlistItems = wishlist.map(id => {
         const prop = properties.find(p => p.id === id);
         if (!prop) return '';
@@ -236,24 +235,16 @@ function updateWishlistModal() {
                     <p>${prop.address}</p>
                     <p class="wishlist-price">₹${prop.price.toLocaleString()}/mo</p>
                 </div>
-                <button class="remove-btn" onclick="toggleWishlist({stopPropagation: () => {}}, ${prop.id})">
+                <button class="remove-btn" onclick="toggleWishlist(event, ${prop.id})">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         `;
     }).join('');
-    
+
     wishlistBody.innerHTML = wishlistItems;
 }
 
-function restoreWishlistState() {
-    wishlist.forEach(id => {
-        const btn = document.querySelector(`.wishlist-btn[onclick*="${id}"]`);
-        if (btn) {
-            btn.classList.add('active');
-        }
-    });
-}
 
 // ============================================
 // PROPERTY DETAILS
@@ -261,7 +252,7 @@ function restoreWishlistState() {
 function openProperty(propertyId) {
     const property = properties.find(p => p.id === propertyId);
     if (!property) return;
-    
+
     document.getElementById('detailTitle').innerText = property.title;
     document.getElementById('detailPrice').innerText = `₹${property.price.toLocaleString()}`;
     document.getElementById('detailAddress').innerText = property.address;
@@ -270,10 +261,21 @@ function openProperty(propertyId) {
     document.getElementById('detailRating').innerText = property.rating;
     document.getElementById('detailReviews').innerText = `(${property.reviews} reviews)`;
     document.getElementById('detailImg').src = property.image;
-    
+
+    const fullStars = Math.floor(property.rating);
+    const hasHalfStar = property.rating % 1 !== 0;
+    const emptyStars = 5 - Math.ceil(property.rating);
+    let starsHtml = '';
+    for (let i = 0; i < fullStars; i++) starsHtml += '<i class="fas fa-star"></i>';
+    if (hasHalfStar) starsHtml += '<i class="fas fa-star-half-alt"></i>';
+    for (let i = 0; i < emptyStars; i++) starsHtml += '<i class="far fa-star"></i>';
+
+    const starsContainer = document.querySelector('#propertyModal .stars');
+    if (starsContainer) starsContainer.innerHTML = starsHtml;
+
     const amenitiesStr = property.amenities.map(a => `<span class="amenity-tag">${a}</span>`).join('');
     document.getElementById('detailAmenities').innerHTML = amenitiesStr;
-    
+
     updateDetailWishlistButton(propertyId);
     toggleModal('propertyModal');
 }
@@ -286,16 +288,16 @@ function applyFilters() {
     const cities = Array.from(document.querySelectorAll('.filter-section:nth-child(2) input[type="checkbox"]:checked')).map(x => x.value);
     const types = Array.from(document.querySelectorAll('.filter-section:nth-child(3) input[type="checkbox"]:checked')).map(x => x.value);
     const amenities = Array.from(document.querySelectorAll('.filter-section:nth-child(4) input[type="checkbox"]:checked')).map(x => x.value);
-    
+
     filteredProperties = properties.filter(prop => {
         const priceMatch = prop.price <= priceRange;
         const cityMatch = cities.length === 0 || cities.includes(prop.city);
         const typeMatch = types.length === 0 || types.includes(prop.type);
         const amenityMatch = amenities.length === 0 || amenities.some(a => prop.amenities.includes(a));
-        
+
         return priceMatch && cityMatch && typeMatch && amenityMatch;
     });
-    
+
     displayedCount = 2;
     sortProperties(currentSortBy);
 }
@@ -304,8 +306,8 @@ function clearFilters() {
     document.querySelectorAll('.filter-section input[type="checkbox"]').forEach(input => {
         input.checked = false;
     });
-    document.getElementById('priceRange').value = 5000;
-    document.getElementById('priceNum').innerText = '5000';
+    document.getElementById('priceRange').value = 50000;
+    document.getElementById('priceNum').innerText = '50000';
     filteredProperties = [...properties];
     displayedCount = 2;
     renderProperties();
@@ -313,8 +315,8 @@ function clearFilters() {
 
 function sortProperties(sortBy) {
     currentSortBy = sortBy;
-    
-    switch(sortBy) {
+
+    switch (sortBy) {
         case 'price-low':
             filteredProperties.sort((a, b) => a.price - b.price);
             break;
@@ -328,9 +330,11 @@ function sortProperties(sortBy) {
         default:
             filteredProperties.sort((a, b) => b.id - a.id);
     }
-    
+
     displayedCount = 2;
     renderProperties();
+    const sortMenu = document.getElementById('sortMenu');
+    if (sortMenu) sortMenu.classList.remove('active');
 }
 
 function updatePriceFilter() {
@@ -355,7 +359,7 @@ function updateResultsCount() {
 function loadMoreProperties() {
     displayedCount += 3;
     renderProperties();
-    
+
     // Smooth scroll
     document.querySelector('.property-grid').scrollIntoView({ behavior: 'smooth' });
 }
@@ -366,8 +370,9 @@ function loadMoreProperties() {
 function toggleView(view) {
     currentView = view;
     document.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.closest('.view-btn').classList.add('active');
-    
+    const activeBtn = document.querySelector(`.view-btn[onclick="toggleView('${view}')"]`);
+    if (activeBtn) activeBtn.classList.add('active');
+
     const grid = document.getElementById('propertyGrid');
     if (view === 'list') {
         grid.style.gridTemplateColumns = '1fr';
@@ -387,7 +392,7 @@ function toggleSortMenu() {
 }
 
 // Close sort menu when clicking outside
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const sortMenu = document.getElementById('sortMenu');
     const sortBtn = document.querySelector('.sort-btn');
     if (sortMenu && sortBtn && !sortBtn.contains(event.target) && !sortMenu.contains(event.target)) {
@@ -406,7 +411,7 @@ function toggleModal(id) {
 }
 
 // Close modals on outside click
-window.onclick = function(event) {
+window.onclick = function (event) {
     if (event.target.classList.contains('modal-overlay')) {
         event.target.classList.remove('active');
     }
@@ -455,18 +460,18 @@ function bookVisit() {
 function handleSearch() {
     const city = document.getElementById('city-select').value;
     const locality = document.getElementById('loc-input').value;
-    
+
     filteredProperties = properties.filter(prop => {
         const cityMatch = city === 'Select City' || prop.city === city;
         const localityMatch = locality === '' || prop.address.toLowerCase().includes(locality.toLowerCase());
         return cityMatch && localityMatch;
     });
-    
+
     displayedCount = 2;
     renderProperties();
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const searchBtn = document.querySelector('.search-main-btn');
     if (searchBtn) {
         searchBtn.addEventListener('click', handleSearch);
@@ -478,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
 // ============================================
 const wishlistTrigger = document.querySelector('.wishlist-trigger');
 if (wishlistTrigger) {
-    wishlistTrigger.addEventListener('click', function() {
+    wishlistTrigger.addEventListener('click', function () {
         updateWishlistModal();
         toggleModal('wishlistOverlay');
     });
